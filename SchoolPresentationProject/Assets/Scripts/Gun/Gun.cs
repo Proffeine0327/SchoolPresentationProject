@@ -12,6 +12,10 @@ public abstract class Gun : MonoBehaviour
     [SerializeField] protected float shootTime;
     [SerializeField] protected float reloadTime;
     [SerializeField] protected float bulletSpeed;
+    [SerializeField] protected float damage;
+    [Header("UI")]
+    [SerializeField] protected string gunName;
+    [SerializeField] protected Sprite gunUIImage;
 
     protected SpriteRenderer sr;
     protected int curAmmo;
@@ -19,8 +23,11 @@ public abstract class Gun : MonoBehaviour
     protected float rotation;
     protected bool isReloading;
 
+    public string GunName => gunName;
     public int MaxAmmo => maxAmmo;
     public int CurAmmo => curAmmo;
+    public bool IsReloading => isReloading;
+    public Sprite GunUIImage => gunUIImage;
 
     public abstract void Shoot();
     public abstract void Reload();

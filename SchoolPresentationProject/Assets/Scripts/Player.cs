@@ -11,12 +11,36 @@ public class Player : MonoBehaviour
     [Header("Hp")]
     [SerializeField] private float maxHp;
     [Header("Gun")]
-    [SerializeField] private Gun gun;
+    [SerializeField] private Transform gunPos;
+    [SerializeField] private GameObject startRifle;
 
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    private Gun curGun;
+    private int curLvl;
+    private float maxExp;
+    private float curExp;
     private float curHp;
+
+    public Gun CurGun => curGun;
+    public int CurLvl => curLvl;
+    public float Curhp => curHp;
+    public float MaxHp => maxHp;
+    public float MaxExp => maxExp;
+    public float CurExp => curExp;
+
+    public void ChangeGun(GameObject prefeb)
+    {
+        if(curGun != null) Destroy(curGun.gameObject);
+        curGun = Instantiate(prefeb, gunPos).GetComponent<Gun>();
+        curGun.transform.localPosition = Vector3.zero;
+    }
+
+    public void Damage(float amount)
+    {
+        curHp -= amount;
+    }
 
     private void Awake()
     {
@@ -26,6 +50,7 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         curHp = maxHp;
+        ChangeGun(startRifle);
     }
 
     private void Update()
@@ -45,7 +70,7 @@ public class Player : MonoBehaviour
         );
 
         //mouse
-        var mouseRelativePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - gun.transform.position;
+        var mouseRelativePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - curGun.transform.position;
         var mouseXNormalized = mouseRelativePos.x > 0 ? 1 : -1;
 
         sr.flipX = mouseXNormalized < 0;
@@ -55,8 +80,9 @@ public class Player : MonoBehaviour
         anim.SetFloat("moveDir", (h != 0 ? h : mouseXNormalized) * mouseXNormalized);
 
         //gun
-        gun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
+        curGun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
 
-        if (Input.GetMouseButton(0)) gun.Shoot();
+        if (Input.GetMouseButton(0)) curGun.Shoot();
+        if (Input.GetKeyDown(KeyCode.R)) curGun.Reload();
     }
 }
