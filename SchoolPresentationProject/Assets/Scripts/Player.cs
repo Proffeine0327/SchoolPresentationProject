@@ -37,6 +37,13 @@ public class Player : MonoBehaviour
 
         rb.velocity = new Vector2(h, v).normalized * moveSpeed;
 
+        transform.position = new Vector3
+        (
+            Mathf.Clamp(transform.position.x, -14.45f, 14.45f),
+            Mathf.Clamp(transform.position.y, -9.673f, 8.97f),
+            0
+        );
+
         //mouse
         var mouseRelativePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - gun.transform.position;
         var mouseXNormalized = mouseRelativePos.x > 0 ? 1 : -1;
@@ -50,6 +57,6 @@ public class Player : MonoBehaviour
         //gun
         gun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
 
-        if(Input.GetMouseButton(0)) gun.Shoot();
+        if (Input.GetMouseButton(0)) gun.Shoot();
     }
 }
