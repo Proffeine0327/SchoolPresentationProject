@@ -62,6 +62,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if(AbilitySelectUI.Instance.IsDisplayingUI) return;
+
         //move
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
@@ -98,6 +100,8 @@ public class Player : MonoBehaviour
             curExp -= maxExp;
             curLvl++;
             maxExp = curLvl * 100;
+
+            AbilitySelectUI.Instance.DisplayUI();
         }
     }
 }

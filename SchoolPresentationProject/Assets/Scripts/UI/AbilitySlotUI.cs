@@ -10,10 +10,15 @@ public class AbilitySlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI abilityName;
     [SerializeField] private TextMeshProUGUI abilityExplain;
 
-    public void SetSlot(Sprite image, string name, string explain)
+    private int index;
+
+    public int Index => index;
+
+    public void SetSlot(Sprite image, string name, string explain, int index)
     {
         abilityImage.sprite = image;
         abilityName.text = name;
         abilityExplain.text = explain;
+        this.index = index;
     }
 }
