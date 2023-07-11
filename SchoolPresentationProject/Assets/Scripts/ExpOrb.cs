@@ -18,10 +18,12 @@ public class ExpOrb : MonoBehaviour
         var rot = Random.Range(0, 360);
         var secondpos = transform.position + (new Vector3(Mathf.Cos(rot * Mathf.Deg2Rad), Mathf.Sin(rot * Mathf.Deg2Rad)) * 2);
 
-        for (float t = 0; t < animationTime; t += Time.deltaTime)
+        var randomTime = animationTime + Random.Range(-0.5f, 0.5f);
+
+        for (float t = 0; t < randomTime; t += Time.deltaTime)
         {
             transform.position =
-                Bezier.GetBezier(t / animationTime, startpos, secondpos, player.transform.position);
+                Bezier.GetBezier(t / randomTime, startpos, secondpos, player.transform.position);
             yield return null;
         }
 
