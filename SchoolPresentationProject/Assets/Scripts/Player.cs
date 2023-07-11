@@ -37,6 +37,11 @@ public class Player : MonoBehaviour
         curGun.transform.localPosition = Vector3.zero;
     }
 
+    public void GetExp(float amount)
+    {
+        curExp += amount;
+    }
+
     public void Damage(float amount)
     {
         curHp -= amount;
@@ -50,6 +55,8 @@ public class Player : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
 
         curHp = maxHp;
+        maxExp = 100;
+        curLvl = 1;
         ChangeGun(startRifle);
     }
 
@@ -84,5 +91,13 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButton(0)) curGun.Shoot();
         if (Input.GetKeyDown(KeyCode.R)) curGun.Reload();
+
+        //exp
+        if(curExp >= maxExp)
+        {
+            curExp -= maxExp;
+            curLvl++;
+            maxExp = curLvl * 100;
+        }
     }
 }

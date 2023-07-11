@@ -9,6 +9,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float damage;
     [SerializeField] protected float attackCooltime;
     [SerializeField] protected float recognizeRange;
+    [SerializeField] protected GameObject expOrbPrefeb;
 
     protected float curHp;
     protected bool isAttacking;
@@ -22,6 +23,12 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected abstract IEnumerator Attack();
+
+    protected virtual void OnDie()
+    {
+        for (var rand = Random.Range(2, 5); rand >= 0; rand--)
+            Instantiate(expOrbPrefeb, (Vector2)transform.position + (Random.insideUnitCircle * 0.7f), Quaternion.Euler(0, 0, 45));
+    }
 
     private IEnumerator AttackRoutine()
     {
@@ -39,10 +46,10 @@ public abstract class Enemy : MonoBehaviour
     {
         if (curHp <= 0)
         {
+            OnDie();
             Destroy(gameObject);
             return;
         }
-
 
         if (!isAttacking)
         {

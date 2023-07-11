@@ -16,6 +16,7 @@ public class PlayerInformationUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gunName;
     [Header("Exp")]
     [SerializeField] private Image expBar;
+    [SerializeField] private TextMeshProUGUI expText;
     [Header("Time")]
     [SerializeField] private TextMeshProUGUI timeBgText;
     [SerializeField] private TextMeshProUGUI timeText;
@@ -36,7 +37,8 @@ public class PlayerInformationUI : MonoBehaviour
         gunAmmo.text = $"{gun.CurAmmo}/{gun.MaxAmmo}";
 
         //exp
-        expBar.fillAmount = player.CurExp / player.MaxExp;
+        expBar.fillAmount = Mathf.Lerp(expBar.fillAmount, player.CurExp / player.MaxExp, Time.deltaTime * 12f);
+        expText.text = $"{player.CurExp}/{player.MaxExp}";
 
         //time
         timeText.text = $"{Mathf.FloorToInt(Time.time / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(Time.time % 60))}";
