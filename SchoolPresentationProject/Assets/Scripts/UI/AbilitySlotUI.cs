@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using TMPro;
 
@@ -10,12 +11,14 @@ public class AbilitySlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI abilityName;
     [SerializeField] private TextMeshProUGUI abilityExplain;
 
-    private int index;
+    private bool canClick;
     private RectTransform rectTransform;
     private Image img;
+    private UnityEvent action;
 
-    public int Index => index;
+    public bool CanClick => canClick;
     public RectTransform RectTransform => rectTransform;
+    public UnityEvent Action => action;
 
     private void Awake()
     {
@@ -52,11 +55,12 @@ public class AbilitySlotUI : MonoBehaviour
         img.color = Color.white;
     }
 
-    public void SetSlot(Sprite image, string name, string explain, int index)
+    public void SetSlot(Sprite image, string name, string explain, UnityEvent action, bool canClick = true)
     {
         abilityImage.sprite = image;
         abilityName.text = name;
         abilityExplain.text = explain;
-        this.index = index;
+        this.action = action;
+        this.canClick = canClick;
     }
 }

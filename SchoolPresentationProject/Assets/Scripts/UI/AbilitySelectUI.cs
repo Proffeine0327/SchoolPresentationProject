@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,23 +37,31 @@ public class AbilitySelectUI : MonoBehaviour
         isDisplayingUI = true;
         bg.SetActive(true);
 
+        var abilityTemp = abilityPresets.ToList();
         for (int i = 0; i < slots.Length; i++)
         {
             if (i == 0)
             {
-                var rand = Random.Range(0, gunUpgradePresets.Length);
-                var p = gunUpgradePresets[rand];
-                slots[i].SetSlot(p.Image, p.Name, p.Explain, rand);
+                if (Player.Instance.CurGunLvl < gunUpgradePresets.Length)
+                {
+                    var p = gunUpgradePresets[Player.Instance.CurGunLvl];
+                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.{Player.Instance.CurGunLvl % 5 + 1}", p.Explain, p.Action);
+                }
+                else
+                {
+                    var p = gunUpgradePresets[^1];
+                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.MAX", "", p.Action, false);
+                }
             }
             else
             {
-                var rand = Random.Range(0, abilityPresets.Length);
-                var p = abilityPresets[rand];
-                slots[i].SetSlot(p.Image, p.Name, p.Explain, rand);
+                var rand = Random.Range(0, abilityTemp.Count);
+                slots[i].SetSlot(abilityTemp[rand].Image, abilityTemp[rand].Name, abilityTemp[rand].Explain, abilityTemp[rand].Action);
+                abilityTemp.RemoveAt(rand);
             }
         }
         isPlayingAcitveAnimation = true;
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             var slotTransform = slots[i].RectTransform;
             slotTransform.anchoredPosition = new Vector2(-2000, slotTransform.anchoredPosition.y);
@@ -62,7 +71,7 @@ public class AbilitySelectUI : MonoBehaviour
 
     private IEnumerator ActiveAnimation()
     {
-        for(int i = 0; i < slots.Length; i++)
+        for (int i = 0; i < slots.Length; i++)
         {
             slots[i].RectTransform.DOAnchorPosX(172, 0.75f).SetEase(Ease.OutBack).SetUpdate(true);
             yield return new WaitForSecondsRealtime(0.2f);
@@ -74,18 +83,19 @@ public class AbilitySelectUI : MonoBehaviour
     {
         if (bg.activeSelf && !isPlayingAcitveAnimation)
         {
-            for(int i = 0; i < slots.Length; i++)
+            for (int i = 0; i < slots.Length; i++)
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1)
+                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1 && slots[i].CanClick)
                 {
                     slots[i].RectTransform.localScale =
                         Vector3.Lerp(slots[i].RectTransform.localScale, new Vector3(1.025f, 1.025f, 1), Time.unscaledDeltaTime * 5f);
 
-                    if(Input.GetMouseButtonDown(0))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         selectedIndex = i;
 
                         slots[i].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
+                        slots[i].Action.Invoke();
                         slots[i].Flicking(0.7f);
                         this.InvokeRealTime(() =>
                         {
@@ -99,7 +109,7 @@ public class AbilitySelectUI : MonoBehaviour
                 }
                 else
                 {
-                    if(selectedIndex == i) continue;
+                    if (selectedIndex == i) return;
 
                     slots[i].RectTransform.localScale =
                         Vector3.Lerp(slots[i].RectTransform.localScale, Vector3.one, Time.unscaledDeltaTime * 5f);

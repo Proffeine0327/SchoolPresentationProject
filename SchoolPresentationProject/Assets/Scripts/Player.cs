@@ -19,22 +19,25 @@ public class Player : MonoBehaviour
     private SpriteRenderer sr;
     private Gun curGun;
     private int curLvl;
+    private int curGunLvl;
     private float maxExp;
     private float curExp;
     private float curHp;
 
     public Gun CurGun => curGun;
     public int CurLvl => curLvl;
+    public int CurGunLvl => curGunLvl;
     public float Curhp => curHp;
     public float MaxHp => maxHp;
     public float MaxExp => maxExp;
     public float CurExp => curExp;
 
-    public void ChangeGun(GameObject prefeb)
+    public void UpgradeGun(GameObject prefeb)
     {
         if(curGun != null) Destroy(curGun.gameObject);
         curGun = Instantiate(prefeb, gunPos).GetComponent<Gun>();
         curGun.transform.localPosition = Vector3.zero;
+        curGunLvl++;
     }
 
     public void GetExp(float amount)
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour
         curHp = maxHp;
         maxExp = 100;
         curLvl = 1;
-        ChangeGun(startRifle);
+        UpgradeGun(startRifle);
     }
 
     private void Update()
