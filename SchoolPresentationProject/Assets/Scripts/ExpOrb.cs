@@ -27,7 +27,7 @@ public class ExpOrb : MonoBehaviour
             yield return null;
         }
 
-        Player.Instance.GetExp(100);
+        Player.Instance.GetExp(10);
         Destroy(gameObject);
     }
 }

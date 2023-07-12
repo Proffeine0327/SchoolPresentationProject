@@ -14,7 +14,7 @@ public class AbilitySlotUI : MonoBehaviour
     private bool canClick;
     private RectTransform rectTransform;
     private Image img;
-    private UnityEvent action;
+    private UnityEvent action = new();
 
     public bool CanClick => canClick;
     public RectTransform RectTransform => rectTransform;
@@ -62,5 +62,15 @@ public class AbilitySlotUI : MonoBehaviour
         abilityExplain.text = explain;
         this.action = action;
         this.canClick = canClick;
+    }
+
+    public void SetSlot(Sprite image, string name, string explain, UnityAction action)
+    {
+        abilityImage.sprite = image;
+        abilityName.text = name;
+        abilityExplain.text = explain;
+        this.action.RemoveAllListeners();
+        this.action.AddListener(action);
+        canClick = true;
     }
 }

@@ -6,20 +6,30 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float maxHp;
+    [SerializeField] protected float invincibleTime;
     [SerializeField] protected float damage;
     [SerializeField] protected float attackCooltime;
     [SerializeField] protected float recognizeRange;
     [SerializeField] protected GameObject expOrbPrefeb;
 
+    private SpriteRenderer sr;
+
+    private float hitAnimationTime;
     protected float curHp;
+    protected float curInvincibleTime;
     protected bool isAttacking;
 
     public float CurHp => curHp;
     public float MaxHp => maxHp;
+    public bool IsInvincible => curInvincibleTime > 0;
 
     public void Damage(float amount)
     {
+        if(IsInvincible) return;
+
+        hitAnimationTime = 0.05f;
         curHp -= amount;
+        curInvincibleTime = invincibleTime;
     }
 
     protected abstract IEnumerator Attack();
@@ -40,6 +50,8 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         curHp = maxHp;
+
+        sr = GetComponent<SpriteRenderer>();
     }
 
     protected virtual void Update()
@@ -49,6 +61,16 @@ public abstract class Enemy : MonoBehaviour
             OnDie();
             Destroy(gameObject);
             return;
+        }
+
+        if(hitAnimationTime > 0)
+        {
+            hitAnimationTime -= Time.deltaTime;
+            sr.color = Color.white;
+        }
+        else
+        {
+            sr.color = Color.red;
         }
 
         if (!isAttacking)
@@ -62,6 +84,8 @@ public abstract class Enemy : MonoBehaviour
                 StartCoroutine(AttackRoutine());
             }
         }
+
+        if(curInvincibleTime > 0) curInvincibleTime -= Time.deltaTime;
     }
 
     protected virtual void OnDrawGizmos()

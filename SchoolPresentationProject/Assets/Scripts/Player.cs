@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AbilityType { bomb, sickel }
+
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
@@ -13,28 +15,41 @@ public class Player : MonoBehaviour
     [Header("Gun")]
     [SerializeField] private Transform gunPos;
     [SerializeField] private GameObject startRifle;
+    [Header("Ability")]
+    [SerializeField] private GameObject bombPrefeb;
+    [SerializeField] private float bombWaitTime;
+    [SerializeField] private GameObject sickelPrefeb;
 
     private Animator anim;
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Gun curGun;
+    private Sickel sickelWeapon = null;
     private int curLvl;
     private int curGunLvl;
+    private int[] abilityLvls;
     private float maxExp;
     private float curExp;
     private float curHp;
+    private float curBombWaitTime;
 
     public Gun CurGun => curGun;
     public int CurLvl => curLvl;
     public int CurGunLvl => curGunLvl;
+    public int[] AbilityLvls => abilityLvls;
     public float Curhp => curHp;
     public float MaxHp => maxHp;
     public float MaxExp => maxExp;
     public float CurExp => curExp;
 
+    public void UpgradeAbility(AbilityType type)
+    {
+        abilityLvls[(int)type]++;
+    }
+
     public void UpgradeGun(GameObject prefeb)
     {
-        if(curGun != null) Destroy(curGun.gameObject);
+        if (curGun != null) Destroy(curGun.gameObject);
         curGun = Instantiate(prefeb, gunPos).GetComponent<Gun>();
         curGun.transform.localPosition = Vector3.zero;
         curGunLvl++;
@@ -60,12 +75,14 @@ public class Player : MonoBehaviour
         curHp = maxHp;
         maxExp = 100;
         curLvl = 1;
+        curBombWaitTime = bombWaitTime;
         UpgradeGun(startRifle);
+        abilityLvls = new int[System.Enum.GetValues(typeof(AbilityType)).Length];
     }
 
     private void Update()
     {
-        if(AbilitySelectUI.Instance.IsDisplayingUI) return;
+        if (AbilitySelectUI.Instance.IsDisplayingUI) return;
 
         //move
         var h = Input.GetAxisRaw("Horizontal");
@@ -98,13 +115,40 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R)) curGun.Reload();
 
         //exp
-        if(curExp >= maxExp)
+        if (curExp >= maxExp)
         {
             curExp -= maxExp;
             curLvl++;
             maxExp = curLvl * 100;
 
             AbilitySelectUI.Instance.DisplayUI();
+        }
+
+        //ability
+        if (abilityLvls[(int)AbilityType.bomb] > 0)
+        {
+            if (curBombWaitTime > 0)
+            {
+                curBombWaitTime -= Time.deltaTime;
+            }
+            else
+            {
+                for (int i = 0; i < 2 + abilityLvls[(int)AbilityType.bomb]; i++)
+                {
+                    var endpos = (Vector2)transform.position + (Random.insideUnitCircle * 2);
+                    var middlepos = (((Vector2)transform.position + endpos) / 2) + (Vector2.up * 2f);
+
+                    var bomb = Instantiate(bombPrefeb, transform.position, Quaternion.identity).GetComponent<Bomb>();
+                    bomb.ThrowBomb(transform.position, middlepos, endpos, 1f);
+                }
+                curBombWaitTime = bombWaitTime;
+            }
+        }
+
+        if (abilityLvls[(int)AbilityType.sickel] > 0)
+        {
+            if(sickelWeapon == null) sickelWeapon = Instantiate(sickelPrefeb, transform).GetComponent<Sickel>();
+            sickelWeapon.transform.localScale = Vector3.one + (Vector3.one * abilityLvls[(int)AbilityType.sickel] * 0.05f);
         }
     }
 }

@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         var beforePos = transform.position;
         transform.Translate(dir * speed * Time.deltaTime, Space.World);
 
-        var hits = 
+        var hits =
         Physics2D.LinecastAll(beforePos, transform.position).
         OrderBy(item => Vector2.Distance(item.transform.position, transform.position)).
         ToArray();

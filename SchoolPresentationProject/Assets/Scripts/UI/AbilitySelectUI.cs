@@ -12,7 +12,7 @@ public class AbilitySelectUI : MonoBehaviour
     [SerializeField] private GameObject bg;
     [SerializeField] private AbilitySlotUI[] slots;
     [Header("Presets")]
-    [SerializeField] private AbilityPreset[] gunUpgradePresets;
+    [SerializeField] private GunPreset[] gunUpgradePresets;
     [SerializeField] private AbilityPreset[] abilityPresets;
 
     private int selectedIndex = -1;
@@ -56,7 +56,16 @@ public class AbilitySelectUI : MonoBehaviour
             else
             {
                 var rand = Random.Range(0, abilityTemp.Count);
-                slots[i].SetSlot(abilityTemp[rand].Image, abilityTemp[rand].Name, abilityTemp[rand].Explain, abilityTemp[rand].Action);
+                var abilityLvl = Player.Instance.AbilityLvls[(int)abilityTemp[rand].AbilityType];
+                var type = (int)abilityTemp[rand].AbilityType;
+
+                slots[i].SetSlot(
+                    abilityTemp[rand].Image,
+                    $"{abilityTemp[rand].Name} Lv.{abilityLvl + 1}",
+                    abilityLvl == 0 ? abilityTemp[rand].GetExplain : abilityTemp[rand].LvlUpExplain,
+                    () => Player.Instance.AbilityLvls[type]++
+                );
+
                 abilityTemp.RemoveAt(rand);
             }
         }
@@ -94,9 +103,9 @@ public class AbilitySelectUI : MonoBehaviour
                     {
                         selectedIndex = i;
 
-                        slots[i].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
-                        slots[i].Action.Invoke();
-                        slots[i].Flicking(0.7f);
+                        slots[selectedIndex].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
+                        slots[selectedIndex].Action.Invoke();
+                        slots[selectedIndex].Flicking(0.7f);
                         this.InvokeRealTime(() =>
                         {
                             slots[selectedIndex].RectTransform.localScale = Vector3.one;
@@ -120,7 +129,7 @@ public class AbilitySelectUI : MonoBehaviour
 }
 
 [System.Serializable]
-public class AbilityPreset
+public class GunPreset
 {
     [SerializeField] private Sprite image;
     [SerializeField] private string name;
@@ -132,4 +141,20 @@ public class AbilityPreset
     public string Name => name;
     public string Explain => explain;
     public UnityEvent Action => action;
+}
+
+[System.Serializable]
+public class AbilityPreset
+{
+    [SerializeField] private Sprite image;
+    [SerializeField] private string name;
+    [SerializeField] private string getExplain;
+    [SerializeField] private string lvlUpExplain;
+    [SerializeField] private AbilityType abilityType;
+
+    public Sprite Image => image;
+    public string Name => name;
+    public string GetExplain => getExplain;
+    public string LvlUpExplain => lvlUpExplain;
+    public AbilityType AbilityType => abilityType;
 }
