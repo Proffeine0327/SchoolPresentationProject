@@ -96,6 +96,12 @@ public class Player : MonoBehaviour
         if (AbilitySelectUI.Instance.IsDisplayingUI) return;
         if (!GameManager.Instance.IsGameStart) return;
 
+        if(Curhp < 0)
+        {
+            //dead
+            return;
+        }
+
         //move
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");

@@ -14,13 +14,15 @@ public class Sickel : MonoBehaviour
         StartCoroutine(SickelMovement());
     }
 
-    private void Update() 
+    private void Update()
     {
-        var hits = Physics2D.OverlapCircleAll(transform.position, range * transform.localScale.x);
-        foreach(var hit in hits)
+        if (sr.enabled)
         {
-            if(hit.CompareTag("Enemy"))
-                hit.GetComponent<Enemy>().Damage(damage);
+            foreach (var hit in Physics2D.OverlapCircleAll(transform.position, range * transform.localScale.x))
+            {
+                if (hit.CompareTag("Enemy"))
+                    hit.GetComponent<Enemy>().Damage(damage);
+            }
         }
     }
 
@@ -47,7 +49,7 @@ public class Sickel : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos() 
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range * transform.localScale.x);
