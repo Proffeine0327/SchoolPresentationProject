@@ -28,16 +28,16 @@ public class ScreenChangerUI : MonoBehaviour
             left.rectTransform.anchoredPosition = new Vector2(-3500, 0);
             right.rectTransform.anchoredPosition = new Vector2(3500, 0);
 
-            left.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad);
-            right.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad);
+            left.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
+            right.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
         }
         else
         {
             left.rectTransform.anchoredPosition = new Vector2(0, 0);
             right.rectTransform.anchoredPosition = new Vector2(0, 0);
 
-            left.rectTransform.DOAnchorPosX(-3500, animationTime).SetEase(Ease.InOutQuad);
-            right.rectTransform.DOAnchorPosX(3500, animationTime).SetEase(Ease.InOutQuad);
+            left.rectTransform.DOAnchorPosX(-3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
+            right.rectTransform.DOAnchorPosX(3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
         }
     }
 }

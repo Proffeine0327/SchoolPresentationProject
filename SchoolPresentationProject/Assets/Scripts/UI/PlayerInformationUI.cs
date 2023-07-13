@@ -27,8 +27,8 @@ public class PlayerInformationUI : MonoBehaviour
 
         //hp
         hpBarBg.position = Camera.main.WorldToScreenPoint(player.transform.position + new Vector3(0, 1.2f, 0));
-        hpBar.fillAmount = player.Curhp / player.MaxHp;
-        hpText.text = $"{Mathf.RoundToInt(player.Curhp)}/{Mathf.RoundToInt(player.MaxHp)}";
+        hpBar.fillAmount = player.CurHp / player.MaxHp;
+        hpText.text = $"{Mathf.RoundToInt(player.CurHp)}/{Mathf.RoundToInt(player.MaxHp)}";
 
         //gun
         var gun = player.CurGun;

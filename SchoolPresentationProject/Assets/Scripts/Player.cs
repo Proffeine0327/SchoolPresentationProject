@@ -28,20 +28,26 @@ public class Player : MonoBehaviour
     private Sickel sickelWeapon = null;
     private int curLvl;
     private int curGunLvl;
+    private int killAmount;
     private int[] abilityLvls;
     private float maxExp;
     private float curExp;
     private float curHp;
     private float curBombWaitTime;
+    private bool isEnd;
 
     public Gun CurGun => curGun;
     public int CurLvl => curLvl;
     public int CurGunLvl => curGunLvl;
+    public int KillAmount => killAmount;
     public int[] AbilityLvls => abilityLvls;
-    public float Curhp => curHp;
+    public float CurHp => curHp;
     public float MaxHp => maxHp;
     public float MaxExp => maxExp;
     public float CurExp => curExp;
+    public bool IsEnd => isEnd;
+
+    public void KilledEnemy() => killAmount++;
 
     public IEnumerator StartAnimation()
     {
@@ -96,9 +102,15 @@ public class Player : MonoBehaviour
         if (AbilitySelectUI.Instance.IsDisplayingUI) return;
         if (!GameManager.Instance.IsGameStart) return;
 
-        if(Curhp < 0)
+        if(CurHp <= 0)
         {
-            //dead
+            curHp = 0;
+            if(!isEnd)
+            {
+                isEnd = true;
+                Time.timeScale = 0;
+                this.InvokeRealTime(() => ScoreUI.Instance.DisplayUI(), 3);
+            }
             return;
         }
 

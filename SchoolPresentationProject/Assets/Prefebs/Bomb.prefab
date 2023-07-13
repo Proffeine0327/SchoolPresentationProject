@@ -98,5 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 1
-  damage: 20
+  damage: 5
   explosionParticlePrefeb: {fileID: 5024284436820296708, guid: 154469e4227576c489ded4901ffa4577, type: 3}

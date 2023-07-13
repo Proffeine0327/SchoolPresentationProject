@@ -6,7 +6,6 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float maxHp;
-    [SerializeField] protected float invincibleTime;
     [SerializeField] protected float damage;
     [SerializeField] protected float attackCooltime;
     [SerializeField] protected float recognizeRange;
@@ -22,21 +21,18 @@ public abstract class Enemy : MonoBehaviour
 
     public float CurHp => curHp;
     public float MaxHp => maxHp;
-    public bool IsInvincible => curInvincibleTime > 0;
 
     public void Damage(float amount)
     {
-        if (IsInvincible) return;
-
         hitAnimationTime = 0.05f;
         curHp -= amount;
-        curInvincibleTime = invincibleTime;
     }
 
     protected abstract IEnumerator Attack();
 
     protected virtual void OnDie()
     {
+        Player.Instance.KilledEnemy();
         for (var rand = Random.Range(2, 5); rand >= 0; rand--)
             Instantiate(expOrbPrefeb, (Vector2)transform.position + (Random.insideUnitCircle * 0.7f), Quaternion.Euler(0, 0, 45));
     }
@@ -96,8 +92,6 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsInvincible) return;
-
         if (other.CompareTag("Bullet"))
         {
             var bullet = other.GetComponent<Bullet>();
