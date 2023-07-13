@@ -13,8 +13,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected GameObject expOrbPrefeb;
 
     private SpriteRenderer sr;
-
     private float hitAnimationTime;
+
+    protected Rigidbody2D rb2d;
     protected float curHp;
     protected float curInvincibleTime;
     protected bool isAttacking;
@@ -25,7 +26,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void Damage(float amount)
     {
-        if(IsInvincible) return;
+        if (IsInvincible) return;
 
         hitAnimationTime = 0.05f;
         curHp -= amount;
@@ -52,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
         curHp = maxHp;
 
         sr = GetComponent<SpriteRenderer>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
     protected virtual void Update()
@@ -63,7 +65,7 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 
-        if(hitAnimationTime > 0)
+        if (hitAnimationTime > 0)
         {
             hitAnimationTime -= Time.deltaTime;
             sr.color = Color.white;
@@ -77,15 +79,31 @@ public abstract class Enemy : MonoBehaviour
         {
             var dir = Player.Instance.transform.position - transform.position;
             dir = dir.normalized;
-            transform.Translate(dir * moveSpeed * Time.deltaTime);
+            rb2d.velocity = dir * moveSpeed;
             if (Vector2.Distance(transform.position, Player.Instance.transform.position) < recognizeRange)
             {
                 isAttacking = true;
                 StartCoroutine(AttackRoutine());
             }
         }
+        else
+        {
+            rb2d.velocity = Vector2.zero;
+        }
 
-        if(curInvincibleTime > 0) curInvincibleTime -= Time.deltaTime;
+        if (curInvincibleTime > 0) curInvincibleTime -= Time.deltaTime;
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (IsInvincible) return;
+
+        if (other.CompareTag("Bullet"))
+        {
+            var bullet = other.GetComponent<Bullet>();
+            bullet.Hitted();
+            Damage(bullet.Damage);
+        }
     }
 
     protected virtual void OnDrawGizmos()

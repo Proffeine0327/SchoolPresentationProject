@@ -148,7 +148,9 @@ public class AbilityPreset
 {
     [SerializeField] private Sprite image;
     [SerializeField] private string name;
+    [TextArea(1, 5)]
     [SerializeField] private string getExplain;
+    [TextArea(1, 5)]
     [SerializeField] private string lvlUpExplain;
     [SerializeField] private AbilityType abilityType;
 

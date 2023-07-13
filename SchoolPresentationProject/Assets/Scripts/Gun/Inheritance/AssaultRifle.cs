@@ -12,7 +12,7 @@ public class AssaultRifle : Gun
 
     private void Start() 
     {
-        sr.sprite = sprites[0];    
+        sr.sprite = sprites[0];
     }
     
     public override void Reload()
@@ -60,11 +60,14 @@ public class AssaultRifle : Gun
 
         if(animationIndex > 0)
         {
-            if(curAnimationTime > 0) curAnimationTime -= Time.deltaTime;
+            if (curAnimationTime > 0)
+            {
+                curAnimationTime -= Time.deltaTime;
+            }
             else
             {
                 animationIndex++;
-                if(animationIndex < sprites.Length) curAnimationTime = shootTime / sprites.Length;
+                if (animationIndex < sprites.Length) curAnimationTime = shootTime / sprites.Length;
                 else animationIndex = 0;
                 sr.sprite = sprites[animationIndex];
             }

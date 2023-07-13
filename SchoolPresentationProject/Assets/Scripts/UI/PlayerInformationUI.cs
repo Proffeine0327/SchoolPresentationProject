@@ -41,7 +41,7 @@ public class PlayerInformationUI : MonoBehaviour
         expText.text = $"{player.CurExp}/{player.MaxExp}";
 
         //time
-        timeText.text = $"{Mathf.FloorToInt(Time.time / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(Time.time % 60))}";
-        timeBgText.text = $"{Mathf.FloorToInt(Time.time / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(Time.time % 60))}";
+        timeText.text = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";
+        timeBgText.text = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";
     }
 }

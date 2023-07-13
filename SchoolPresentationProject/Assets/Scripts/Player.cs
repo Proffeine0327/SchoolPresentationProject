@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
-public enum AbilityType { bomb, sickel }
+public enum AbilityType { bomb, sickel, armor_piercing }
 
 public class Player : MonoBehaviour
 {
@@ -42,6 +43,14 @@ public class Player : MonoBehaviour
     public float MaxExp => maxExp;
     public float CurExp => curExp;
 
+    public IEnumerator StartAnimation()
+    {
+        curGun.gameObject.SetActive(true);
+        gunPos.localPosition = new Vector3(0, 0.2f, 0);
+        gunPos.DOLocalMoveY(0.35f, 1).SetEase(Ease.OutBack);
+        yield return new WaitForSeconds(2f);
+    }
+
     public void UpgradeAbility(AbilityType type)
     {
         abilityLvls[(int)type]++;
@@ -77,12 +86,15 @@ public class Player : MonoBehaviour
         curLvl = 1;
         curBombWaitTime = bombWaitTime;
         UpgradeGun(startRifle);
+        curGun.SetRotation(20);
+        curGun.gameObject.SetActive(false);
         abilityLvls = new int[System.Enum.GetValues(typeof(AbilityType)).Length];
     }
 
     private void Update()
     {
         if (AbilitySelectUI.Instance.IsDisplayingUI) return;
+        if (!GameManager.Instance.IsGameStart) return;
 
         //move
         var h = Input.GetAxisRaw("Horizontal");
@@ -147,7 +159,7 @@ public class Player : MonoBehaviour
 
         if (abilityLvls[(int)AbilityType.sickel] > 0)
         {
-            if(sickelWeapon == null) sickelWeapon = Instantiate(sickelPrefeb, transform).GetComponent<Sickel>();
+            if (sickelWeapon == null) sickelWeapon = Instantiate(sickelPrefeb, transform).GetComponent<Sickel>();
             sickelWeapon.transform.localScale = Vector3.one + (Vector3.one * abilityLvls[(int)AbilityType.sickel] * 0.05f);
         }
     }

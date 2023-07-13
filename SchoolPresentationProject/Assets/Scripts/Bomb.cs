@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bomb : MonoBehaviour
 {
     [SerializeField] private float range;
-    [SerializeField] private float damage;
+    [SerializeField] private float damage;  
     [SerializeField] private GameObject explosionParticlePrefeb;
 
     public void ThrowBomb(Vector2 start, Vector2 middle, Vector2 end, float t)

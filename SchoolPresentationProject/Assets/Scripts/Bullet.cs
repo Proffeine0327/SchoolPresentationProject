@@ -5,13 +5,21 @@ using System.Linq;
 
 public class Bullet : MonoBehaviour
 {
+    private int throughCount;
     private float damage;
     private float speed;
     private Vector2 dir;
 
-    private void Start() 
+    public float Damage => damage;
+
+    private void Start()
     {
         Destroy(gameObject, 2);
+    }
+
+    public void Hitted()
+    {
+        throughCount--;
     }
 
     public void Init(float speed, Vector2 dir, float damage)
@@ -20,25 +28,17 @@ public class Bullet : MonoBehaviour
         this.dir = dir;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         this.damage = damage;
+        throughCount = Player.Instance.AbilityLvls[(int)AbilityType.armor_piercing] + 1;
     }
 
     private void Update()
     {
-        var beforePos = transform.position;
-        transform.Translate(dir * speed * Time.deltaTime, Space.World);
-
-        var hits =
-        Physics2D.LinecastAll(beforePos, transform.position).
-        OrderBy(item => Vector2.Distance(item.transform.position, transform.position)).
-        ToArray();
-
-        foreach(var hit in hits)
+        if(throughCount <= 0)
         {
-            if(hit.collider.CompareTag("Enemy"))
-                hit.collider.GetComponent<Enemy>().Damage(damage);
-
             Destroy(gameObject);
-            break;
+            return;
         }
+
+        transform.Translate(dir * speed * Time.deltaTime, Space.World);
     }
 }

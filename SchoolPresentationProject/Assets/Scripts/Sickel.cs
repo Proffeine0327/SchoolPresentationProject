@@ -16,7 +16,7 @@ public class Sickel : MonoBehaviour
 
     private void Update() 
     {
-        var hits = Physics2D.OverlapCircleAll(transform.position, range);
+        var hits = Physics2D.OverlapCircleAll(transform.position, range * transform.localScale.x);
         foreach(var hit in hits)
         {
             if(hit.CompareTag("Enemy"))
@@ -50,6 +50,6 @@ public class Sickel : MonoBehaviour
     private void OnDrawGizmos() 
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.DrawWireSphere(transform.position, range * transform.localScale.x);
     }
 }
