@@ -17,6 +17,8 @@ public class PlayerInformationUI : MonoBehaviour
     [Header("Exp")]
     [SerializeField] private Image expBar;
     [SerializeField] private TextMeshProUGUI expText;
+    [Header("Kill")]
+    [SerializeField] private TextMeshProUGUI killText;
     [Header("Time")]
     [SerializeField] private TextMeshProUGUI timeBgText;
     [SerializeField] private TextMeshProUGUI timeText;
@@ -39,6 +41,9 @@ public class PlayerInformationUI : MonoBehaviour
         //exp
         expBar.fillAmount = Mathf.Lerp(expBar.fillAmount, player.CurExp / player.MaxExp, Time.deltaTime * 12f);
         expText.text = $"{player.CurExp}/{player.MaxExp}";
+
+        //kill
+        killText.text = string.Format("{0:#,0}", Player.Instance.KillAmount);
 
         //time
         timeText.text = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";

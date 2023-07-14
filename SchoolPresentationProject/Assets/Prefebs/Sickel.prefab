@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 0.49
-  damage: 10
+  damage: 20

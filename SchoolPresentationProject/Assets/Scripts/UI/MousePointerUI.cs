@@ -7,13 +7,9 @@ public class MousePointerUI : MonoBehaviour
 {
     [SerializeField] private RectTransform cursor;
 
-    void Start()
-    {
-        Cursor.visible = false;
-    }
-
     void Update()
     {
+        Cursor.visible = false;
         cursor.position = Input.mousePosition;
     }
 }

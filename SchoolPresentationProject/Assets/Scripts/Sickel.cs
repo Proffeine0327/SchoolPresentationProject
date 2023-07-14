@@ -21,7 +21,7 @@ public class Sickel : MonoBehaviour
             foreach (var hit in Physics2D.OverlapCircleAll(transform.position, range * transform.localScale.x))
             {
                 if (hit.CompareTag("Enemy"))
-                    hit.GetComponent<Enemy>().Damage(damage);
+                    hit.GetComponent<Enemy>().Damage((damage + Player.Instance.AbilityLvls[(int)AbilityType.sickel] - 1) * Time.deltaTime);
             }
         }
     }
