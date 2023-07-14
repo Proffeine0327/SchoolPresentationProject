@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class InGameBackground : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private Sprite[] bgs;
+
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GetComponent<SpriteRenderer>().sprite = bgs[DataManager.Instance.stage];
     }
 }

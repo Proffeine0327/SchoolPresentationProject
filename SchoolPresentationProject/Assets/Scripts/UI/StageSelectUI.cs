@@ -7,11 +7,14 @@ using TMPro;
 
 public class StageSelectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    [Header("Ref")]
     [SerializeField] private RectTransform content;
     [SerializeField] private Scrollbar scrollBar;
     [SerializeField] private Button enterbtn;
-    [SerializeField] private TextMeshProUGUI[] texts;
+    [SerializeField] private TextMeshProUGUI[] titleTexts;
+    [Header("Var")]
     [SerializeField] private string[] stageNames;
+    [SerializeField] private float imageHSize;
 
     private int index;
     private int contentCount;
@@ -50,7 +53,7 @@ public class StageSelectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 
         if (eventData.delta.x is < 20 and > -20)
         {
-            index = Mathf.RoundToInt(-content.anchoredPosition.x / 3840);
+            index = Mathf.RoundToInt(-content.anchoredPosition.x / imageHSize);
         }
         else
         {
@@ -65,7 +68,7 @@ public class StageSelectUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         if (!isDragging)
             scrollBar.value = Mathf.Lerp(scrollBar.value, (float)index / (contentCount - 1), Time.deltaTime * 10f);
 
-        foreach(var text in texts)
+        foreach(var text in titleTexts)
             text.text = stageNames[index];
     }
 }

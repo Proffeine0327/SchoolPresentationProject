@@ -170,8 +170,9 @@ GameObject:
   m_Component:
   - component: {fileID: 56875667}
   - component: {fileID: 56875666}
+  - component: {fileID: 56875668}
   m_Layer: 0
-  m_Name: bg1
+  m_Name: bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,6 +249,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &56875668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 56875665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8679c1ea8469ff04982e768890ac8103, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgs:
+  - {fileID: 21300000, guid: 49dcabb93abff4749b8732452bda9718, type: 3}
+  - {fileID: 21300000, guid: 109bddd49c607784b9df7c486305b286, type: 3}
 --- !u!1 &64110866
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,7 +4520,7 @@ MonoBehaviour:
     name: "\uB0AB"
     getExplain: "\uD50C\uB808\uC774\uC5B4 \uC8FC\uBCC0\uC744 \uB3CC\uC544\uB2E4\uB2C8\uB294
       \uB0AB\uC744 \uC18C\uD658\uD569\uB2C8\uB2E4."
-    lvlUpExplain: "\uD06C\uAE30 +5%\n\uB370\uBBF8\uC9C0 +1"
+    lvlUpExplain: "\uD06C\uAE30 +5%\n\uB370\uBBF8\uC9C0 +2"
     abilityType: 1
   - image: {fileID: 0}
     name: "\uCCA0\uAC11\uD0C4"

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemySpawnManager : MonoBehaviour
 {
@@ -33,9 +34,21 @@ public class EnemySpawnManager : MonoBehaviour
 
     private IEnumerator SpawnEnemy(Vector2 pos)
     {
-        Destroy(Instantiate(xmark, pos, Quaternion.identity), 2);
+        var x = Instantiate(xmark, pos, Quaternion.identity);
+        x.transform.localScale = Vector3.zero;
+        x.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutBack);
+        Destroy(x, 2);
+        
 
         yield return new WaitForSeconds(2);
-        Instantiate(enemies[Random.Range(0, enemies.Length)], pos, Quaternion.identity);
+        switch(DataManager.Instance.stage)
+        {
+            case 0:
+                Instantiate(enemies[0], pos, Quaternion.identity);
+                break;
+            default:
+                Instantiate(enemies[Random.Range(0, enemies.Length)], pos, Quaternion.identity);
+                break;
+        }
     }
 }
