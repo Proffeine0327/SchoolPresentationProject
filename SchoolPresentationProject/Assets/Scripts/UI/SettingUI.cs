@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class SettingUI : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class SettingUI : MonoBehaviour
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private TMP_InputField volumeInput;
 
     private bool isPlayingAnimation;
 
@@ -36,5 +39,31 @@ public class SettingUI : MonoBehaviour
 
         bg.gameObject.SetActive(false);
         exitButton.onClick.AddListener(() => DisplayUI(false));
+        volumeInput.onSubmit.AddListener((value) =>
+        {
+            if (float.TryParse(value, out var v))
+            {
+                v = Mathf.Clamp(v, 0, 100);
+                v = Mathf.RoundToInt(v);
+                DataManager.Instance.soundRatio = v / 100f;
+                volumeInput.text = $"{v}%";
+                volumeSlider.value = v;
+            }
+        });
+    }
+
+    private void Start()
+    {
+        volumeSlider.value = DataManager.Instance.soundRatio * 100f;
+        volumeInput.text = $"{Mathf.RoundToInt(DataManager.Instance.soundRatio * 100)}%";
+    }
+
+    private void Update()
+    {
+        if (!volumeInput.isFocused)
+        {
+            DataManager.Instance.soundRatio = volumeSlider.value / 100f;
+            volumeInput.text = $"{volumeSlider.value}%";
+        }
     }
 }

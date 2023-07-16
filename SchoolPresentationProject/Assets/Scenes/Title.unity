@@ -762,7 +762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: Volume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a878cd11c63aa8640b4f0249a25354c1, type: 2}
   m_sharedMaterial: {fileID: 7797969206028994657, guid: a878cd11c63aa8640b4f0249a25354c1, type: 2}
@@ -789,15 +789,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 2
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1135,15 +1135,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2823,6 +2823,8 @@ MonoBehaviour:
   bg: {fileID: 597182131}
   border: {fileID: 1061767702}
   exitButton: {fileID: 1056435777}
+  volumeSlider: {fileID: 2022156032}
+  volumeInput: {fileID: 1244742895}
 --- !u!1 &597182129
 GameObject:
   m_ObjectHideFlags: 0
@@ -5161,6 +5163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageIndex: 0
   playerIndex: 0
+  soundRatio: 0.5
 --- !u!1 &1232185121
 GameObject:
   m_ObjectHideFlags: 0
@@ -5274,8 +5277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 552.5101, y: 20}
-  m_SizeDelta: {x: 160, y: 100.3647}
+  m_AnchoredPosition: {x: 577.565, y: -29}
+  m_SizeDelta: {x: 210.1096, y: 100.3647}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1244742895
 MonoBehaviour:
@@ -5334,7 +5337,7 @@ MonoBehaviour:
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
   m_RegexValue: 
-  m_GlobalPointSize: 14
+  m_GlobalPointSize: 50
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
@@ -6521,7 +6524,7 @@ GameObject:
   - component: {fileID: 1488960220}
   - component: {fileID: 1488960221}
   m_Layer: 5
-  m_Name: ExitUI
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7831,7 +7834,7 @@ GameObject:
   - component: {fileID: 1867021030}
   - component: {fileID: 1867021031}
   m_Layer: 5
-  m_Name: HowtoUI
+  m_Name: Howto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8879,7 +8882,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -118.49, y: 20}
+  m_AnchoredPosition: {x: -118.49, y: -29}
   m_SizeDelta: {x: 236.9764, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2022156032
@@ -8927,8 +8930,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1245626749}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 100
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:

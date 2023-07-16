@@ -6,12 +6,13 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
 
-    public int stageIndex;
-    public int playerIndex;
+    [HideInInspector] public int stageIndex;
+    [HideInInspector] public int playerIndex;
+    [HideInInspector] public float soundRatio = 0.5f;
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
@@ -20,5 +21,7 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        soundRatio = 0.5f;
     }
 }
