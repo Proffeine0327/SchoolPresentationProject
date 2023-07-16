@@ -18,6 +18,7 @@ public class TitleButtonUI : MonoBehaviour
         start.onClick.AddListener(() => StageCharacterSelectUI.Instance.DisplayUI(true));
         howto.onClick.AddListener(() => HowToUI.Instance.DisplayUI(true));
         exit.onClick.AddListener(() => ExitUI.Instance.DisplayUI(true));
+        setting.onClick.AddListener(() => SettingUI.Instance.DisplayUI(true));
 
         ScreenChangerUI.Instance.ActiveUI(false);
     }
