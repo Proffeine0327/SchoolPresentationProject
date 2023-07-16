@@ -124,7 +124,7 @@ public class Player : MonoBehaviour
         transform.position = new Vector3
         (
             Mathf.Clamp(transform.position.x, -14.45f, 14.45f),
-            Mathf.Clamp(transform.position.y, -9.673f, 8.97f),
+            Mathf.Clamp(transform.position.y, -9.673f, 8.72f),
             0
         );
 

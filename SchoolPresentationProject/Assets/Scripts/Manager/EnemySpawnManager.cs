@@ -8,7 +8,7 @@ public class EnemySpawnManager : MonoBehaviour
     public static EnemySpawnManager Instance { get; private set; }
 
     [SerializeField] private GameObject xmark;
-    [SerializeField] private GameObject[] enemies;
+    [SerializeField] private StagePresets stagePresets;
 
     public void StartSpawning()
     {
@@ -38,17 +38,9 @@ public class EnemySpawnManager : MonoBehaviour
         x.transform.localScale = Vector3.zero;
         x.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutBack);
         Destroy(x, 2);
-        
 
         yield return new WaitForSeconds(2);
-        switch(DataManager.Instance.stage)
-        {
-            case 0:
-                Instantiate(enemies[0], pos, Quaternion.identity);
-                break;
-            default:
-                Instantiate(enemies[Random.Range(0, enemies.Length)], pos, Quaternion.identity);
-                break;
-        }
+        var rand = Random.Range(0, stagePresets.Presets[DataManager.Instance.stageIndex].Enemies.Length);
+        Instantiate(stagePresets.Presets[DataManager.Instance.stageIndex].Enemies[rand], pos, Quaternion.identity);
     }
 }

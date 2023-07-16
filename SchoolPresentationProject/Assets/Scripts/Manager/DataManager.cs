@@ -6,7 +6,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
 
-    [HideInInspector] public int stage;
+    public int stageIndex;
+    public int playerIndex;
 
     private void Awake()
     {

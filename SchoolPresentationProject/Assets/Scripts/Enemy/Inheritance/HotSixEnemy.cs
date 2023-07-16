@@ -6,12 +6,15 @@ public class HotSixEnemy : Enemy
 {
     [SerializeField] private float attackRange;
 
-    protected override IEnumerator Attack()
+    protected override void Attack()
     {
-        yield return new WaitForSeconds(0.3f);
-        
         if(Vector2.Distance(transform.position, Player.Instance.transform.position) < attackRange)
             Player.Instance.Damage(damage);
+    }
+
+    protected override void EndAttack()
+    {
+        isAttacking = false;
     }
 
     protected override void OnDrawGizmos()

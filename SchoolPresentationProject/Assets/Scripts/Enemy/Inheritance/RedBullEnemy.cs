@@ -6,15 +6,15 @@ public class RedBullEnemy : Enemy
 {
     [SerializeField] private float attackRange;
 
-    protected override IEnumerator Attack()
+    protected override void Attack()
     {
-        yield return new WaitForSeconds(0.3f);
-        
         if(Vector2.Distance(transform.position, Player.Instance.transform.position) < attackRange)
-        {
             Player.Instance.Damage(damage);
-            Destroy(gameObject);
-        }
+    }
+
+    protected override void EndAttack()
+    {
+        Destroy(gameObject);
     }
 
     protected override void OnDrawGizmos()

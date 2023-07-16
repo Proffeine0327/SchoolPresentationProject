@@ -11,28 +11,14 @@ public class TitleButtonUI : MonoBehaviour
     [SerializeField] private Button exit;
     [SerializeField] private Button setting;
 
-    private bool isStartBtnPressed;
-
     private void Start()
     {
-        start.onClick.AddListener(() =>
-        {
-            if(isStartBtnPressed) return;
-            isStartBtnPressed = true;
-            StartCoroutine(StartAnimation());
-        });
-        
+        Time.timeScale = 1;
+
+        start.onClick.AddListener(() => StageCharacterSelectUI.Instance.DisplayUI(true));
+        howto.onClick.AddListener(() => HowToUI.Instance.DisplayUI(true));
+        exit.onClick.AddListener(() => ExitUI.Instance.DisplayUI(true));
+
         ScreenChangerUI.Instance.ActiveUI(false);
-    }
-
-    private IEnumerator StartAnimation()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        ScreenChangerUI.Instance.ActiveUI(true);
-
-        yield return new WaitForSeconds(ScreenChangerUI.Instance.AnimationTime + 1);
-
-        SceneManager.LoadScene("Stage");
     }
 }

@@ -15,9 +15,11 @@ public abstract class Enemy : MonoBehaviour
     private float hitAnimationTime;
 
     protected Rigidbody2D rb2d;
+    protected Animator anim;
     protected float curHp;
     protected float curInvincibleTime;
     protected bool isAttacking;
+    protected bool isDie;
 
     public float CurHp => curHp;
     public float MaxHp => maxHp;
@@ -28,7 +30,8 @@ public abstract class Enemy : MonoBehaviour
         curHp -= amount;
     }
 
-    protected abstract IEnumerator Attack();
+    protected abstract void Attack();
+    protected abstract void EndAttack();
 
     protected virtual void OnDie()
     {
@@ -37,23 +40,19 @@ public abstract class Enemy : MonoBehaviour
             Instantiate(expOrbPrefeb, (Vector2)transform.position + (Random.insideUnitCircle * 0.7f), Quaternion.Euler(0, 0, 45));
     }
 
-    private IEnumerator AttackRoutine()
-    {
-        yield return StartCoroutine(Attack());
-        yield return new WaitForSeconds(attackCooltime);
-        isAttacking = false;
-    }
-
     protected virtual void Awake()
     {
         curHp = maxHp;
 
         sr = GetComponent<SpriteRenderer>();
         rb2d = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     protected virtual void Update()
     {
+        if(isDie) return;
+
         if (curHp <= 0)
         {
             OnDie();
@@ -64,27 +63,29 @@ public abstract class Enemy : MonoBehaviour
         if (hitAnimationTime > 0)
         {
             hitAnimationTime -= Time.deltaTime;
-            sr.color = Color.white;
+            sr.color = Color.red;
         }
         else
         {
-            sr.color = Color.red;
+            sr.color = Color.white;
         }
 
         if (!isAttacking)
         {
+            rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
             var dir = Player.Instance.transform.position - transform.position;
+            sr.flipX = dir.x <= 0;
             dir = dir.normalized;
             rb2d.velocity = dir * moveSpeed;
             if (Vector2.Distance(transform.position, Player.Instance.transform.position) < recognizeRange)
             {
                 isAttacking = true;
-                StartCoroutine(AttackRoutine());
+                anim.SetTrigger("attack");
             }
         }
         else
         {
-            rb2d.velocity = Vector2.zero;
+            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
         }
 
         if (curInvincibleTime > 0) curInvincibleTime -= Time.deltaTime;

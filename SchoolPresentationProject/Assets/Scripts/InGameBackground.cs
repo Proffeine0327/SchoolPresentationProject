@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class InGameBackground : MonoBehaviour
 {
-    [SerializeField] private Sprite[] bgs;
+    [SerializeField] private StagePresets stagePresets;
 
     void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = bgs[DataManager.Instance.stage];
+        GetComponent<SpriteRenderer>().sprite = stagePresets.Presets[DataManager.Instance.stageIndex].Background;
     }
 }

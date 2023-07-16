@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f68b1a1e32f1742b892b12f51d26f4, type: 3}
+  m_Name: PlayerPresets
+  m_EditorClassIdentifier: 
+  presets:
+  - name: "\uC624\uB9AC\uC9C0\uB0A0"
+    explain: "\"\uBBF8\uAD6D\uC5D0\uC11C \uD0DC\uC5B4\uB098 \uC804 \uC138\uACC4\uB85C
+      \uBED7\uC5B4\uB098\uAC00\uACE0 \uC788\uB294 \uBAAC\uC2A4\uD130 \uC5D0\uB108\uC9C0\uB97C
+      \uADF8\uB300\uB85C \uB290\uAEF4\uBCF4\uC138\uC694.\""
+    selectUISprite: {fileID: -65342914, guid: c80e16c88eab97c43ac4e5bcc8ffff15, type: 3}
+    prefeb: {fileID: 7375551661721732887, guid: 1b2220afe60d3764c9d3c0fa7b3cfed4, type: 3}
+  - name: "\uC6B8\uD2B8\uB77C"
+    explain: "\uC0AC\uB78C\uB4E4\uC740 \uB298 \uC0C8\uB85C\uC6B4 \uAC83, \uB354 \uC88B\uC740
+      \uAC83\uC744 \uC6D0\uD558\uC8E0.\""
+    selectUISprite: {fileID: 1562806105, guid: 33417c5e7f0d6624f9b951356f4e71a9, type: 3}
+    prefeb: {fileID: 5773661189843240328, guid: bff5972eb40151144b1dd75834878824, type: 3}
+  - name: "\uD30C\uC774\uD504\uB77C\uC778 \uD380\uCE58"
+    explain: "\"\uBC18\uC790\uC774 \uD30C\uC774\uD504\uB77C\uC778 \uD574\uBCC0\uC740
+      \uB9E4\uB144 \uACA8\uC6B8 \uC9E7\uC740 \uAE30\uAC04 \uB3D9\uC548 \uCD5C\uACE0\uC758
+      \uD30C\uB3C4\uB97C \uB9CC\uB4E4\uC5B4\uB0B4\uC8E0.\""
+    selectUISprite: {fileID: 420396045, guid: ba7a9604a8c7aa5478431a575f91e9d2, type: 3}
+    prefeb: {fileID: 566810185854125093, guid: 150d1eb348566eb40bfb72d76eb41ca0, type: 3}
+  - name: "\uB9DD\uACE0\uB85C\uCF54"
+    explain: "\"\uBA55\uC2DC\uCF54\uC5D0\uC11C\uB294 \uB9E4\uB144 \uD560\uB85C\uC708
+      \uC774\uD6C4 \uC8FD\uC740 \uC790\uC758 \uB0A0\uC744 \uAE30\uB150\uD569\uB2C8\uB2E4.\""
+    selectUISprite: {fileID: -416344120, guid: eb88ef2569f736342987dcee6551feff, type: 3}
+    prefeb: {fileID: 4779495112723809438, guid: 932b8c21815763d4bb02f455ff525efd, type: 3}

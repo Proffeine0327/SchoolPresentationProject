@@ -14,11 +14,13 @@ public class AbilitySlotUI : MonoBehaviour
     private bool canClick;
     private RectTransform rectTransform;
     private Image img;
-    private UnityEvent action = new();
+    private GameObject gunPrefeb;
+    private AbilityType abilityType;
 
     public bool CanClick => canClick;
     public RectTransform RectTransform => rectTransform;
-    public UnityEvent Action => action;
+    public GameObject GunPrefeb => gunPrefeb;
+    public AbilityType AbilityType => abilityType;
 
     private void Awake()
     {
@@ -55,22 +57,21 @@ public class AbilitySlotUI : MonoBehaviour
         img.color = Color.white;
     }
 
-    public void SetSlot(Sprite image, string name, string explain, UnityEvent action, bool canClick = true)
+    public void SetSlot(Sprite image, string name, string explain, AbilityType abilityType, bool canClick = true)
     {
         abilityImage.sprite = image;
         abilityName.text = name;
         abilityExplain.text = explain;
-        this.action = action;
+        this.abilityType = abilityType;
         this.canClick = canClick;
     }
 
-    public void SetSlot(Sprite image, string name, string explain, UnityAction action)
+    public void SetSlot(Sprite image, string name, string explain, GameObject gunPrefeb, bool canClick = true)
     {
         abilityImage.sprite = image;
         abilityName.text = name;
         abilityExplain.text = explain;
-        this.action.RemoveAllListeners();
-        this.action.AddListener(action);
-        canClick = true;
+        this.gunPrefeb = gunPrefeb;
+        this.canClick = canClick;
     }
 }

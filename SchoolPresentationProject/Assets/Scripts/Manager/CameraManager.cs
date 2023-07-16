@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    public static CameraManager Instance { get; private set; }
+
     [SerializeField] private Vector2 clamp;
-    
+    private Transform target;
+
+    public void SetTarget(Transform target) => this.target = target;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     void Update()
     {
         transform.position = new Vector3

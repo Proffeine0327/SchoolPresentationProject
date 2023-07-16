@@ -45,25 +45,25 @@ public class AbilitySelectUI : MonoBehaviour
                 if (Player.Instance.CurGunLvl < gunUpgradePresets.Length)
                 {
                     var p = gunUpgradePresets[Player.Instance.CurGunLvl];
-                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.{Player.Instance.CurGunLvl % 5 + 1}", p.Explain, p.Action);
+                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.{Player.Instance.CurGunLvl % 5 + 1}", p.Explain, p.GunPrefeb);
                 }
                 else
                 {
                     var p = gunUpgradePresets[^1];
-                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.MAX", "", p.Action, false);
+                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.MAX", "", p.GunPrefeb, false);
                 }
             }
             else
             {
                 var rand = Random.Range(0, abilityTemp.Count);
                 var abilityLvl = Player.Instance.AbilityLvls[(int)abilityTemp[rand].AbilityType];
-                var type = (int)abilityTemp[rand].AbilityType;
+                var type = abilityTemp[rand].AbilityType;
 
                 slots[i].SetSlot(
                     abilityTemp[rand].Image,
                     $"{abilityTemp[rand].Name} Lv.{abilityLvl + 1}",
                     abilityLvl == 0 ? abilityTemp[rand].GetExplain : abilityTemp[rand].LvlUpExplain,
-                    () => Player.Instance.AbilityLvls[type]++
+                    type
                 );
 
                 abilityTemp.RemoveAt(rand);
@@ -104,7 +104,8 @@ public class AbilitySelectUI : MonoBehaviour
                         selectedIndex = i;
 
                         slots[selectedIndex].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
-                        slots[selectedIndex].Action.Invoke();
+                        if (selectedIndex == 0) Player.Instance.UpgradeGun(slots[selectedIndex].GunPrefeb);
+                        else Player.Instance.UpgradeAbility(slots[selectedIndex].AbilityType);
                         slots[selectedIndex].Flicking(0.7f);
                         this.InvokeRealTime(() =>
                         {
@@ -135,12 +136,12 @@ public class GunPreset
     [SerializeField] private string name;
     [TextArea(3, 4)]
     [SerializeField] private string explain;
-    [SerializeField] private UnityEvent action;
+    [SerializeField] private GameObject gunPrefeb;
 
     public Sprite Image => image;
     public string Name => name;
     public string Explain => explain;
-    public UnityEvent Action => action;
+    public GameObject GunPrefeb => gunPrefeb;
 }
 
 [System.Serializable]

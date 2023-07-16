@@ -8,6 +8,7 @@ public class ScreenChangerUI : MonoBehaviour
 {
     public static ScreenChangerUI Instance { get; private set; }
 
+    [SerializeField] private GameObject screen;
     [SerializeField] private Image left;
     [SerializeField] private Image right;
     [SerializeField] private float animationTime;
@@ -21,6 +22,7 @@ public class ScreenChangerUI : MonoBehaviour
 
     public void ActiveUI(bool active)
     {
+        screen.SetActive(active);
         left.gameObject.SetActive(true);
         right.gameObject.SetActive(true);
         if (active)
@@ -39,5 +41,13 @@ public class ScreenChangerUI : MonoBehaviour
             left.rectTransform.DOAnchorPosX(-3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
             right.rectTransform.DOAnchorPosX(3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
         }
+        this.Invoke(() =>
+        {
+            if(!active)
+            {
+                left.gameObject.SetActive(false);
+                right.gameObject.SetActive(false);
+            }
+        }, animationTime);
     }
 }

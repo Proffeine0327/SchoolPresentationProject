@@ -6,19 +6,24 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField] private PlayerPresets playerPresets;
+
     private bool isGameStart;
     private float startTime;
+    private GameObject player;
 
     public bool IsGameStart => isGameStart;
     public float GamePlayTime { get {  return isGameStart ? Time.time - startTime : 0; } }
 
     private void Awake()
     {
+        player = Instantiate(playerPresets.Presets[DataManager.Instance.playerIndex].Prefeb);
         Instance = this;
     }
 
     private void Start()
     {
+        CameraManager.Instance.SetTarget(player.transform);
         ScreenChangerUI.Instance.ActiveUI(false);
         StartCoroutine(StartAnimation());
     }
