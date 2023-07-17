@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Sound { }
+public enum Sound { Main, Ingame, IngameWarning, opening_can,  }
 
 public class SoundManager : MonoBehaviour
 {
@@ -10,17 +10,27 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioClip[] sounds;
 
-    public void PlaySound(Sound sound)
+    public AudioSource PlaySound(Sound sound, bool isDestory = true, bool isLoop = false)
     {
         var clip = sounds[(int)sound];
         var comp = new GameObject(clip.name).AddComponent<AudioSource>();
         comp.clip = clip;
         comp.Play();
-        Destroy(comp, clip.length);
+        if(isDestory) Destroy(comp, clip.length);
+        if(isLoop) comp.loop = true;
+        return comp;
     }
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

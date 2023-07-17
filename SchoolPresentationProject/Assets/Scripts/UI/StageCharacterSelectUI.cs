@@ -61,6 +61,7 @@ public class StageCharacterSelectUI : MonoBehaviour
         {
             DataManager.Instance.stageIndex = stageScrollUI.Index;
             DataManager.Instance.playerIndex = characterScrollUI.Index;
+            BackgroundSound.Instance.Fade(SoundFadeType.Out, ScreenChangerUI.Instance.AnimationTime);
 
             ScreenChangerUI.Instance.ActiveUI(true);
             this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("InGame"), ScreenChangerUI.Instance.AnimationTime + 1);
