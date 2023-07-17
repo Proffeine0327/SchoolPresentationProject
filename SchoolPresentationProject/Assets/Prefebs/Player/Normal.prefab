@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 4
   maxHp: 100
+  hitParticlePrefeb: {fileID: 363954607705074563, guid: f14cf20f9eb452f4882c6a427e978055, type: 3}
   gunPos: {fileID: 7375551662272709141}
   startRifle: {fileID: 8158044143937160447, guid: 6a9f925b64b0a3247bffcc2529aa6b4a, type: 3}
   bombPrefeb: {fileID: 344168476253513680, guid: dcac4e45c372fc44c8fc41b021821e5c, type: 3}

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [Header("Hp")]
     [SerializeField] private float maxHp;
+    [SerializeField] private GameObject hitParticlePrefeb;
     [Header("Gun")]
     [SerializeField] private Transform gunPos;
     [SerializeField] private GameObject startRifle;
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour
     public void Damage(float amount)
     {
         curHp -= amount;
+        Instantiate(hitParticlePrefeb, transform.position, Quaternion.identity);
     }
 
     private void Awake()
