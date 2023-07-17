@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Sound { Main, Ingame, IngameWarning, opening_can,  }
+public enum Sound { Main, Ingame, IngameWarning, OpeningCan  }
 
 public class SoundManager : MonoBehaviour
 {
@@ -15,6 +15,7 @@ public class SoundManager : MonoBehaviour
         var clip = sounds[(int)sound];
         var comp = new GameObject(clip.name).AddComponent<AudioSource>();
         comp.clip = clip;
+        comp.volume = DataManager.Instance.soundRatio;
         comp.Play();
         if(isDestory) Destroy(comp, clip.length);
         if(isLoop) comp.loop = true;

@@ -59,6 +59,7 @@ public class StageCharacterSelectUI : MonoBehaviour
 
         characterScrollUI.ButtonEvent.AddListener(() =>
         {
+            SoundManager.Instance.PlaySound(Sound.OpeningCan);
             DataManager.Instance.stageIndex = stageScrollUI.Index;
             DataManager.Instance.playerIndex = characterScrollUI.Index;
             BackgroundSound.Instance.Fade(SoundFadeType.Out, ScreenChangerUI.Instance.AnimationTime);

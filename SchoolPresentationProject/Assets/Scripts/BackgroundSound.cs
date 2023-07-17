@@ -22,7 +22,10 @@ public class BackgroundSound : MonoBehaviour
 
     private void Update()
     {
-        if(currentSound != null) currentSound.volume = DataManager.Instance.soundRatio;
+        if(currentSound != null)
+        {
+            currentSound.volume = DataManager.Instance.soundRatio;
+        }
     }
 
     public AudioSource ChangeSound(Sound sound)

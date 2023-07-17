@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             this.Invoke(() =>
             {
                 var sound = BackgroundSound.Instance.ChangeSound(Sound.IngameWarning);
-                sound.Pause();
+                sound.volume = 0;
                 BackgroundSound.Instance.Fade(SoundFadeType.In, 2);
             }, 2);
         }

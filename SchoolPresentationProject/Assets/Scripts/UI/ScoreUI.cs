@@ -16,17 +16,13 @@ public class ScoreUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI detail;
     [SerializeField] private Button exitButton;
 
-    private bool isChangingScene;
-
     private void Awake()
     {
         Instance = this;
 
         exitButton.onClick.AddListener(() =>
         {
-            if(isChangingScene) return;
-
-            isChangingScene = true;
+            SoundManager.Instance.PlaySound(Sound.OpeningCan);
             ScreenChangerUI.Instance.ActiveUI(true);
             this.InvokeRealTime(() => SceneManager.LoadScene("Title"), 3);
         });

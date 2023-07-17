@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
             {
                 isEnd = true;
                 Time.timeScale = 0;
+                BackgroundSound.Instance.Fade(SoundFadeType.Out, 2.5f);
                 this.InvokeRealTime(() => ScoreUI.Instance.DisplayUI(), 3);
             }
             return;
