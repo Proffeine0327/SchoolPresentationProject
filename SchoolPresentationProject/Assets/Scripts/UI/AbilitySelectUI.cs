@@ -94,15 +94,22 @@ public class AbilitySelectUI : MonoBehaviour
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1 && slots[i].CanClick)
+                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1 && slots[i].CanClick && !SettingUI.Instance.IsDisplayingUI)
                 {
                     slots[i].RectTransform.localScale =
                         Vector3.Lerp(slots[i].RectTransform.localScale, new Vector3(1.025f, 1.025f, 1), Time.unscaledDeltaTime * 5f);
+
+                    if(!slots[i].IsPlayedSound)
+                    {
+                        SoundManager.Instance.PlaySound(Sound.Clicky);
+                        slots[i].IsPlayedSound = true;
+                    }
 
                     if (Input.GetMouseButtonDown(0))
                     {
                         selectedIndex = i;
 
+                        SoundManager.Instance.PlaySound(Sound.Select);
                         slots[selectedIndex].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
                         if (selectedIndex == 0) Player.Instance.UpgradeGun(slots[selectedIndex].GunPrefeb);
                         else Player.Instance.UpgradeAbility(slots[selectedIndex].AbilityType);
@@ -121,6 +128,7 @@ public class AbilitySelectUI : MonoBehaviour
                 {
                     if (selectedIndex == i) return;
 
+                    slots[i].IsPlayedSound = false;
                     slots[i].RectTransform.localScale =
                         Vector3.Lerp(slots[i].RectTransform.localScale, Vector3.one, Time.unscaledDeltaTime * 5f);
                 }

@@ -20,6 +20,7 @@ public class AssaultRifle : Gun
         if(isReloading) return;
         if(curAmmo == maxAmmo) return;
 
+        SoundManager.Instance.PlaySound(Sound.GunReload);
         isReloading = true;
         ReloadUI.Instance.SetTime(reloadTime);
         this.Invoke(() =>
@@ -40,6 +41,7 @@ public class AssaultRifle : Gun
             return;
         }
 
+        SoundManager.Instance.PlaySound(Sound.GunShot);
         var bullet = Instantiate(bulletPrefeb, bulletSpawnPos.position, Quaternion.identity).GetComponent<Bullet>();
         bullet.Init
         (

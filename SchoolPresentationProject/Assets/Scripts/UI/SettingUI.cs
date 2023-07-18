@@ -16,15 +16,21 @@ public class SettingUI : MonoBehaviour
     [SerializeField] private TMP_InputField volumeInput;
 
     private bool isPlayingAnimation;
+    private bool isDisplayUI;
+
+    public bool IsPlayingAnimation => isPlayingAnimation;
+    public bool IsDisplayingUI => isDisplayUI;
 
     public void DisplayUI(bool active)
     {
         if (isPlayingAnimation) return;
         if (active) bg.gameObject.SetActive(active);
 
-        border.DOAnchorPosY(active ? 0 : 1800, 1).SetEase(active ? Ease.OutBack : Ease.InBack);
-        bg.DOColor(active ? new Color(0, 0, 0, 0.545f) : Vector4.zero, 1);
-        this.Invoke(() =>
+        isDisplayUI = active;
+
+        border.DOAnchorPosY(active ? 0 : 1800, 1).SetEase(active ? Ease.OutBack : Ease.InBack).SetUpdate(true);
+        bg.DOColor(active ? new Color(0, 0, 0, 0.545f) : Vector4.zero, 1).SetUpdate(true);
+        this.InvokeRealTime(() =>
         {
             isPlayingAnimation = false;
             bg.gameObject.SetActive(active);
@@ -38,7 +44,7 @@ public class SettingUI : MonoBehaviour
         Instance = this;
 
         bg.gameObject.SetActive(false);
-        exitButton.onClick.AddListener(() => DisplayUI(false));
+        exitButton?.onClick.AddListener(() => DisplayUI(false));
         volumeInput.onSubmit.AddListener((value) =>
         {
             if (float.TryParse(value, out var v))

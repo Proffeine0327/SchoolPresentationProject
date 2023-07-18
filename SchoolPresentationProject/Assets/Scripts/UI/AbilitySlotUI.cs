@@ -21,10 +21,11 @@ public class AbilitySlotUI : MonoBehaviour
     public RectTransform RectTransform => rectTransform;
     public GameObject GunPrefeb => gunPrefeb;
     public AbilityType AbilityType => abilityType;
+    public bool IsPlayedSound { get; set; }
 
     private void Awake()
     {
-        rectTransform = (transform as RectTransform);
+        rectTransform = transform as RectTransform;
         img = GetComponent<Image>();
     }
 

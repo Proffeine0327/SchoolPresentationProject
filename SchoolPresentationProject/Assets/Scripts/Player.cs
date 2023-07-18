@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     private float maxExp;
     private float curExp;
     private float curHp;
+    private float preTimeScale;
     private float curBombWaitTime;
     private bool isEnd;
 
@@ -104,10 +105,10 @@ public class Player : MonoBehaviour
         if (AbilitySelectUI.Instance.IsDisplayingUI) return;
         if (!GameManager.Instance.IsGameStart) return;
 
-        if(CurHp <= 0)
+        if (CurHp <= 0)
         {
             curHp = 0;
-            if(!isEnd)
+            if (!isEnd)
             {
                 isEnd = true;
                 Time.timeScale = 0;
@@ -135,17 +136,20 @@ public class Player : MonoBehaviour
         var mouseRelativePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - curGun.transform.position;
         var mouseXNormalized = mouseRelativePos.x > 0 ? 1 : -1;
 
-        sr.flipX = mouseXNormalized < 0;
+        if (!SettingUI.Instance.IsDisplayingUI)
+            sr.flipX = mouseXNormalized < 0;
 
         //animator
         anim.SetBool("isMove", isMove);
         anim.SetFloat("moveDir", (h != 0 ? h : mouseXNormalized) * mouseXNormalized);
 
         //gun
-        curGun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
-
-        if (Input.GetMouseButton(0)) curGun.Shoot();
-        if (Input.GetKeyDown(KeyCode.R)) curGun.Reload();
+        if (!SettingUI.Instance.IsDisplayingUI)
+        {
+            curGun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
+            if (Input.GetMouseButton(0)) curGun.Shoot();
+            if (Input.GetKeyDown(KeyCode.R)) curGun.Reload();
+        }
 
         //exp
         if (curExp >= maxExp)
@@ -182,6 +186,21 @@ public class Player : MonoBehaviour
         {
             if (sickelWeapon == null) sickelWeapon = Instantiate(sickelPrefeb, transform).GetComponent<Sickel>();
             sickelWeapon.transform.localScale = Vector3.one + (Vector3.one * abilityLvls[(int)AbilityType.sickel] * 0.05f);
+        }
+
+        //esc
+        if (Input.GetKeyDown(KeyCode.Escape) && !SettingUI.Instance.IsPlayingAnimation)
+        {
+            SettingUI.Instance.DisplayUI(!SettingUI.Instance.IsDisplayingUI);
+            if (SettingUI.Instance.IsDisplayingUI)
+            {
+                preTimeScale = Time.timeScale;
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = preTimeScale;
+            }
         }
     }
 }
