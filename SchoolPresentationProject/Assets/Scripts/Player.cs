@@ -80,6 +80,7 @@ public class Player : MonoBehaviour
     public void Damage(float amount)
     {
         curHp -= amount;
+        SoundManager.Instance.PlaySound(Sound.Hurt);
         Instantiate(hitParticlePrefeb, transform.position, Quaternion.identity);
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Sound { Main, Ingame, IngameWarning, OpeningCan, Clicky, Select, GunShot, GunReload }
+public enum Sound { Main, Ingame, IngameWarning, OpeningCan, Clicky, Select, GunShot, GunReload, Hurt, Text, XpSound }
 
 public class SoundManager : MonoBehaviour
 {

@@ -133,7 +133,7 @@ MonoBehaviour:
   bulletSpawnPos: {fileID: 6575253987561977872}
   maxAmmo: 30
   shootTime: 0.2
-  reloadTime: 2.5
+  reloadTime: 2
   bulletSpeed: 20
   damage: 20
   gunName: AK47

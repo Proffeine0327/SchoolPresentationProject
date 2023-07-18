@@ -18,7 +18,7 @@ public class ExpOrb : MonoBehaviour
         var rot = Random.Range(0, 360);
         var secondpos = transform.position + (new Vector3(Mathf.Cos(rot * Mathf.Deg2Rad), Mathf.Sin(rot * Mathf.Deg2Rad)) * 2);
 
-        var randomTime = animationTime + Random.Range(-0.5f, 0.5f);
+        var randomTime = animationTime + Random.Range(-0.5f, 0.75f);
 
         for (float t = 0; t < randomTime; t += Time.deltaTime)
         {
