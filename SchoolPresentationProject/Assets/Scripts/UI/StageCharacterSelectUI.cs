@@ -6,8 +6,6 @@ using DG.Tweening;
 
 public class StageCharacterSelectUI : MonoBehaviour
 {
-    public static StageCharacterSelectUI Instance { get; private set; }
-
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
@@ -15,6 +13,8 @@ public class StageCharacterSelectUI : MonoBehaviour
     [SerializeField] private StageScrollUI stageScrollUI;
     [SerializeField] private GameObject characterGroup;
     [SerializeField] private CharacterScrollUI characterScrollUI;
+    [Header("Vars")]
+    [SerializeField] private float hideVPos;
 
     private bool isPlayingAnimation;
 
@@ -30,7 +30,7 @@ public class StageCharacterSelectUI : MonoBehaviour
             characterGroup.SetActive(false);
         }
 
-        border.DOAnchorPosY(active ? 0 : 2150, 1).SetEase(active ? Ease.OutBack : Ease.InBack);
+        border.DOAnchorPosY(active ? 0 : hideVPos, 1).SetEase(active ? Ease.OutBack : Ease.InBack);
         bg.DOColor(active ? new Color(0, 0, 0, 0.545f) : Vector4.zero, 1);
         this.Invoke(() =>
         {
@@ -43,7 +43,7 @@ public class StageCharacterSelectUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     private void Start()
@@ -62,10 +62,10 @@ public class StageCharacterSelectUI : MonoBehaviour
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
             DataManager.Instance.stageIndex = stageScrollUI.Index;
             DataManager.Instance.playerIndex = characterScrollUI.Index;
-            BackgroundSound.Instance.Fade(SoundFadeType.Out, ScreenChangerUI.Instance.AnimationTime);
+            BackgroundSound.Instance.Fade(SoundFadeType.Out, SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime);
 
-            ScreenChangerUI.Instance.ActiveUI(true);
-            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("CutScene"), ScreenChangerUI.Instance.AnimationTime + 1);
+            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("CutScene"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
         });
 
         stageGroup.SetActive(false);

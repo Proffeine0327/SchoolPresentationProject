@@ -35,7 +35,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnDie()
     {
-        Player.Instance.KilledEnemy();
+        SingletonManager.GetSingleton<Player>().KilledEnemy();
         for (var rand = Random.Range(2, 5); rand >= 0; rand--)
             Instantiate(expOrbPrefeb, (Vector2)transform.position + (Random.insideUnitCircle * 0.7f), Quaternion.Euler(0, 0, 45));
     }
@@ -73,11 +73,11 @@ public abstract class Enemy : MonoBehaviour
         if (!isAttacking)
         {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-            var dir = Player.Instance.transform.position - transform.position;
+            var dir = SingletonManager.GetSingleton<Player>().transform.position - transform.position;
             sr.flipX = dir.x <= 0;
             dir = dir.normalized;
             rb2d.velocity = dir * moveSpeed;
-            if (Vector2.Distance(transform.position, Player.Instance.transform.position) < recognizeRange)
+            if (Vector2.Distance(transform.position, SingletonManager.GetSingleton<Player>().transform.position) < recognizeRange)
             {
                 isAttacking = true;
                 anim.SetTrigger("attack");

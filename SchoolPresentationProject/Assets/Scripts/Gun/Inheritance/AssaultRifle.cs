@@ -22,7 +22,7 @@ public class AssaultRifle : Gun
 
         SoundManager.Instance.PlaySound(Sound.GunReload);
         isReloading = true;
-        ReloadUI.Instance.SetTime(reloadTime);
+        SingletonManager.GetSingleton<ReloadUI>().SetTime(reloadTime);
         this.Invoke(() =>
         {
             isReloading = false;

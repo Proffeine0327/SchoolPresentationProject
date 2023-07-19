@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
-
     [SerializeField] private PlayerPresets playerPresets;
 
     private bool isGameStart;
@@ -19,13 +17,13 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         player = Instantiate(playerPresets.Presets[DataManager.Instance.playerIndex].Prefeb);
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     private void Start()
     {
-        CameraManager.Instance.SetTarget(player.transform);
-        ScreenChangerUI.Instance.ActiveUI(false);
+        SingletonManager.GetSingleton<CameraManager>().SetTarget(player.transform);
+        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
         StartCoroutine(StartAnimation());
     }
 
@@ -47,10 +45,10 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartAnimation()
     {
-        ScreenChangerUI.Instance.ActiveUI(false);
-        yield return new WaitForSeconds(ScreenChangerUI.Instance.AnimationTime + 1);
-        yield return StartCoroutine(Player.Instance.StartAnimation());
-        EnemySpawnManager.Instance.StartSpawning();
+        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
+        yield return new WaitForSeconds(SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+        yield return StartCoroutine(SingletonManager.GetSingleton<Player>().StartAnimation());
+        SingletonManager.GetSingleton<EnemySpawnManager>().StartSpawning();
 
         isGameStart = true;
         startTime = Time.time;

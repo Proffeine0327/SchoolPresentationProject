@@ -13,7 +13,7 @@ public class ExpOrb : MonoBehaviour
 
     private IEnumerator Animation()
     {
-        var player = Player.Instance;
+        var player = SingletonManager.GetSingleton<Player>();
         var startpos = transform.position;
         var rot = Random.Range(0, 360);
         var secondpos = transform.position + (new Vector3(Mathf.Cos(rot * Mathf.Deg2Rad), Mathf.Sin(rot * Mathf.Deg2Rad)) * 2);
@@ -27,7 +27,7 @@ public class ExpOrb : MonoBehaviour
             yield return null;
         }
 
-        Player.Instance.GetExp(10);
+        player.GetExp(10);
         Destroy(gameObject);
     }
 }

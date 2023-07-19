@@ -7,13 +7,13 @@ using TMPro;
 
 public class SettingUI : MonoBehaviour
 {
-    public static SettingUI Instance { get; private set; }
-
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private TMP_InputField volumeInput;
+    [Header("Vars")]
+    [SerializeField] private float hideVPos;
 
     private bool isPlayingAnimation;
     private bool isDisplayUI;
@@ -28,7 +28,7 @@ public class SettingUI : MonoBehaviour
 
         isDisplayUI = active;
 
-        border.DOAnchorPosY(active ? 0 : 1800, 1).SetEase(active ? Ease.OutBack : Ease.InBack).SetUpdate(true);
+        border.DOAnchorPosY(active ? 0 : hideVPos, 1).SetEase(active ? Ease.OutBack : Ease.InBack).SetUpdate(true);
         bg.DOColor(active ? new Color(0, 0, 0, 0.545f) : Vector4.zero, 1).SetUpdate(true);
         this.InvokeRealTime(() =>
         {
@@ -41,7 +41,7 @@ public class SettingUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
 
         bg.gameObject.SetActive(false);
         exitButton?.onClick.AddListener(() => DisplayUI(false));

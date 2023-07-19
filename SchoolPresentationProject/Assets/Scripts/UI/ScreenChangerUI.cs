@@ -6,18 +6,18 @@ using DG.Tweening;
 
 public class ScreenChangerUI : MonoBehaviour
 {
-    public static ScreenChangerUI Instance { get; private set; }
-
     [SerializeField] private GameObject screen;
     [SerializeField] private Image left;
     [SerializeField] private Image right;
     [SerializeField] private float animationTime;
+    [Header("Vars")]
+    [SerializeField] private float hideHAbsPos;
 
     public float AnimationTime => animationTime;
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     public void ActiveUI(bool active)
@@ -27,8 +27,8 @@ public class ScreenChangerUI : MonoBehaviour
         right.gameObject.SetActive(true);
         if (active)
         {
-            left.rectTransform.anchoredPosition = new Vector2(-3500, 0);
-            right.rectTransform.anchoredPosition = new Vector2(3500, 0);
+            left.rectTransform.anchoredPosition = new Vector2(-hideHAbsPos, 0);
+            right.rectTransform.anchoredPosition = new Vector2(hideHAbsPos, 0);
 
             left.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
             right.rectTransform.DOAnchorPosX(0, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
@@ -38,8 +38,8 @@ public class ScreenChangerUI : MonoBehaviour
             left.rectTransform.anchoredPosition = new Vector2(0, 0);
             right.rectTransform.anchoredPosition = new Vector2(0, 0);
 
-            left.rectTransform.DOAnchorPosX(-3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
-            right.rectTransform.DOAnchorPosX(3500, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
+            left.rectTransform.DOAnchorPosX(-hideHAbsPos, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
+            right.rectTransform.DOAnchorPosX(hideHAbsPos, animationTime).SetEase(Ease.InOutQuad).SetUpdate(true);
         }
         this.Invoke(() =>
         {

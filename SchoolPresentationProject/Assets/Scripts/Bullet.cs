@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
         this.dir = dir;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         this.damage = damage;
-        throughCount = Player.Instance.AbilityLvls[(int)AbilityType.armor_piercing] + 1;
+        throughCount = SingletonManager.GetSingleton<Player>().AbilityLvls[(int)AbilityType.armor_piercing] + 1;
     }
 
     private void Update()

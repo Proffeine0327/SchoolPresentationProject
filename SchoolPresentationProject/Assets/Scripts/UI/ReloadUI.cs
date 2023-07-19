@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ReloadUI : MonoBehaviour
 {
-    public static ReloadUI Instance { get; private set; }
-
     [SerializeField] private GameObject bg;
     [SerializeField] private Image bar;
 
@@ -15,7 +13,7 @@ public class ReloadUI : MonoBehaviour
 
     private void Awake() 
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     public void SetTime(float t)
@@ -27,7 +25,7 @@ public class ReloadUI : MonoBehaviour
     private void LateUpdate() 
     {
         bg.transform.position = 
-            Camera.main.WorldToScreenPoint(Player.Instance.transform.position + new Vector3(0.5f, 1, 0));
+            Camera.main.WorldToScreenPoint(SingletonManager.GetSingleton<Player>().transform.position + new Vector3(0.5f, 1, 0));
     }
 
     private void Update() 

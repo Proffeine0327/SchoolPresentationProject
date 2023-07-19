@@ -15,11 +15,11 @@ public class TitleButtonUI : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        start.onClick.AddListener(() => StageCharacterSelectUI.Instance.DisplayUI(true));
-        howto.onClick.AddListener(() => HowToUI.Instance.DisplayUI(true));
-        exit.onClick.AddListener(() => ExitUI.Instance.DisplayUI(true));
-        setting.onClick.AddListener(() => SettingUI.Instance.DisplayUI(true));
+        start.onClick.AddListener(() => SingletonManager.GetSingleton<StageCharacterSelectUI>().DisplayUI(true));
+        howto.onClick.AddListener(() => SingletonManager.GetSingleton<HowToUI>().DisplayUI(true));
+        exit.onClick.AddListener(() => SingletonManager.GetSingleton<ExitUI>().DisplayUI(true));
+        setting.onClick.AddListener(() => SingletonManager.GetSingleton<SettingUI>().DisplayUI(true));
 
-        ScreenChangerUI.Instance.ActiveUI(false);
+        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
     }
 }

@@ -8,8 +8,8 @@ public class LetsBeEnemy : Enemy
 
     protected override void Attack()
     {
-        if(Vector2.Distance(transform.position, Player.Instance.transform.position) < attackRange)
-            Player.Instance.Damage(damage);
+        if(Vector2.Distance(transform.position, SingletonManager.GetSingleton<Player>().transform.position) < attackRange)
+            SingletonManager.GetSingleton<Player>().Damage(damage);
     }
 
     protected override void EndAttack()

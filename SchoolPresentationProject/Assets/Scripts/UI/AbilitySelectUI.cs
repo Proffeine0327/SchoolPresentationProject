@@ -7,13 +7,14 @@ using DG.Tweening;
 
 public class AbilitySelectUI : MonoBehaviour
 {
-    public static AbilitySelectUI Instance { get; private set; }
-
     [SerializeField] private GameObject bg;
     [SerializeField] private AbilitySlotUI[] slots;
     [Header("Presets")]
     [SerializeField] private GunPreset[] gunUpgradePresets;
     [SerializeField] private AbilityPreset[] abilityPresets;
+    [Header("Vars")]
+    [SerializeField] private float hideXPos;
+    [SerializeField] private float showXPos;
 
     private int selectedIndex = -1;
     private bool isDisplayingUI;
@@ -23,7 +24,7 @@ public class AbilitySelectUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     private void Start()
@@ -42,10 +43,10 @@ public class AbilitySelectUI : MonoBehaviour
         {
             if (i == 0)
             {
-                if (Player.Instance.CurGunLvl < gunUpgradePresets.Length)
+                if (SingletonManager.GetSingleton<Player>().CurGunLvl < gunUpgradePresets.Length)
                 {
-                    var p = gunUpgradePresets[Player.Instance.CurGunLvl];
-                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.{Player.Instance.CurGunLvl % 5 + 1}", p.Explain, p.GunPrefeb);
+                    var p = gunUpgradePresets[SingletonManager.GetSingleton<Player>().CurGunLvl];
+                    slots[i].SetSlot(p.Image, $"{p.Name} Lv.{SingletonManager.GetSingleton<Player>().CurGunLvl % 5 + 1}", p.Explain, p.GunPrefeb);
                 }
                 else
                 {
@@ -56,7 +57,7 @@ public class AbilitySelectUI : MonoBehaviour
             else
             {
                 var rand = Random.Range(0, abilityTemp.Count);
-                var abilityLvl = Player.Instance.AbilityLvls[(int)abilityTemp[rand].AbilityType];
+                var abilityLvl = SingletonManager.GetSingleton<Player>().AbilityLvls[(int)abilityTemp[rand].AbilityType];
                 var type = abilityTemp[rand].AbilityType;
 
                 slots[i].SetSlot(
@@ -73,7 +74,7 @@ public class AbilitySelectUI : MonoBehaviour
         for (int i = 0; i < slots.Length; i++)
         {
             var slotTransform = slots[i].RectTransform;
-            slotTransform.anchoredPosition = new Vector2(-2000, slotTransform.anchoredPosition.y);
+            slotTransform.anchoredPosition = new Vector2(hideXPos, slotTransform.anchoredPosition.y);
         }
         StartCoroutine(ActiveAnimation());
     }
@@ -82,7 +83,7 @@ public class AbilitySelectUI : MonoBehaviour
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            slots[i].RectTransform.DOAnchorPosX(172, 0.75f).SetEase(Ease.OutBack).SetUpdate(true);
+            slots[i].RectTransform.DOAnchorPosX(showXPos, 0.75f).SetEase(Ease.OutBack).SetUpdate(true);
             yield return new WaitForSecondsRealtime(0.2f);
         }
         isPlayingAcitveAnimation = false;
@@ -94,12 +95,12 @@ public class AbilitySelectUI : MonoBehaviour
         {
             for (int i = 0; i < slots.Length; i++)
             {
-                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1 && slots[i].CanClick && !SettingUI.Instance.IsDisplayingUI)
+                if (RectTransformUtility.RectangleContainsScreenPoint(slots[i].RectTransform, Input.mousePosition) && selectedIndex == -1 && slots[i].CanClick && !SingletonManager.GetSingleton<SettingUI>().IsDisplayingUI)
                 {
                     slots[i].RectTransform.localScale =
                         Vector3.Lerp(slots[i].RectTransform.localScale, new Vector3(1.025f, 1.025f, 1), Time.unscaledDeltaTime * 5f);
 
-                    if(!slots[i].IsPlayedSound)
+                    if (!slots[i].IsPlayedSound)
                     {
                         SoundManager.Instance.PlaySound(Sound.Clicky);
                         slots[i].IsPlayedSound = true;
@@ -111,8 +112,8 @@ public class AbilitySelectUI : MonoBehaviour
 
                         SoundManager.Instance.PlaySound(Sound.Select);
                         slots[selectedIndex].RectTransform.DOScale(new Vector3(1.07f, 1.07f, 1), 0.5f).SetEase(Ease.OutQuad).SetUpdate(true);
-                        if (selectedIndex == 0) Player.Instance.UpgradeGun(slots[selectedIndex].GunPrefeb);
-                        else Player.Instance.UpgradeAbility(slots[selectedIndex].AbilityType);
+                        if (selectedIndex == 0) SingletonManager.GetSingleton<Player>().UpgradeGun(slots[selectedIndex].GunPrefeb);
+                        else SingletonManager.GetSingleton<Player>().UpgradeAbility(slots[selectedIndex].AbilityType);
                         slots[selectedIndex].Flicking(0.7f);
                         this.InvokeRealTime(() =>
                         {

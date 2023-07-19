@@ -9,8 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class ScoreUI : MonoBehaviour
 {
-    public static ScoreUI Instance { get; private set; }
-
     [SerializeField] private Image bg;
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI detail;
@@ -18,12 +16,12 @@ public class ScoreUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
 
         exitButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
-            ScreenChangerUI.Instance.ActiveUI(true);
+            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
             this.InvokeRealTime(() => SceneManager.LoadScene("Title"), 3);
         });
     }
@@ -42,7 +40,7 @@ public class ScoreUI : MonoBehaviour
         //mission <color=red>failed</color>
 
         title.text =
-            GameManager.Instance.GamePlayTime / 60 > 10
+            SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60 > 10
                 ? "mission <color=yellow>complete</color>"
                 : "mission <color=red>failed</color>";
         title.rectTransform.localScale = new Vector3(2, 2, 1);
@@ -56,7 +54,7 @@ public class ScoreUI : MonoBehaviour
         SoundManager.Instance.PlaySound(Sound.Text);
         yield return new WaitForSecondsRealtime(1f);
 
-        var timetext = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";
+        var timetext = $"{Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime % 60))}";
         for (int i = 0; i < timetext.Length; i++)
         {
             sb.Append(timetext[i]);
@@ -71,7 +69,7 @@ public class ScoreUI : MonoBehaviour
         SoundManager.Instance.PlaySound(Sound.Text);
 
         yield return new WaitForSecondsRealtime(1f);
-        var killtext = string.Format("{0:#,0}", Player.Instance.KillAmount);
+        var killtext = string.Format("{0:#,0}", SingletonManager.GetSingleton<Player>().KillAmount);
         for (int i = 0; i < killtext.Length; i++)
         {
             sb.Append(killtext[i]);
@@ -86,7 +84,7 @@ public class ScoreUI : MonoBehaviour
         detail.text = sb.ToString();
 
         yield return new WaitForSecondsRealtime(1f);
-        var lvltext = Player.Instance.CurLvl.ToString();
+        var lvltext = SingletonManager.GetSingleton<Player>().CurLvl.ToString();
         for (int i = 0; i < lvltext.Length; i++)
         {
             sb.Append(lvltext[i]);

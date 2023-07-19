@@ -11,7 +11,6 @@ public class PlayerInformationUI : MonoBehaviour
     [SerializeField] private Image hpBar;
     [SerializeField] private TextMeshProUGUI hpText;
     [Header("Gun")]
-    [SerializeField] private Image gunImage;
     [SerializeField] private TextMeshProUGUI gunAmmo;
     [SerializeField] private TextMeshProUGUI gunName;
     [Header("Exp")]
@@ -25,7 +24,7 @@ public class PlayerInformationUI : MonoBehaviour
 
     private void LateUpdate() 
     {
-        var player = Player.Instance;
+        var player = SingletonManager.GetSingleton<Player>();
 
         //hp
         hpBarBg.position = Camera.main.WorldToScreenPoint(player.transform.position + new Vector3(0, 1.2f, 0));
@@ -34,7 +33,6 @@ public class PlayerInformationUI : MonoBehaviour
 
         //gun
         var gun = player.CurGun;
-        gunImage.sprite = gun.GunUIImage;
         gunName.text = gun.GunName;
         gunAmmo.text = $"{gun.CurAmmo}/{gun.MaxAmmo}";
 
@@ -43,10 +41,10 @@ public class PlayerInformationUI : MonoBehaviour
         expText.text = $"{player.CurExp}/{player.MaxExp}";
 
         //kill
-        killText.text = string.Format("{0:#,0}", Player.Instance.KillAmount);
+        killText.text = string.Format("{0:#,0}", player.KillAmount);
 
         //time
-        timeText.text = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";
-        timeBgText.text = $"{Mathf.FloorToInt(GameManager.Instance.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(GameManager.Instance.GamePlayTime % 60))}";
+        timeText.text = $"{Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime % 60))}";
+        timeBgText.text = $"{Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime % 60))}";
     }
 }

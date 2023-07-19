@@ -6,12 +6,12 @@ using DG.Tweening;
 
 public class ExitUI : MonoBehaviour
 {
-    public static ExitUI Instance { get; private set; }
-
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
     [SerializeField] private Button gameExitButton;
+    [Header("Vars")]
+    [SerializeField] private float hideVPos;
 
     private bool isPlayingAnimation;
 
@@ -21,7 +21,7 @@ public class ExitUI : MonoBehaviour
 
         if (active) bg.gameObject.SetActive(active);
 
-        border.DOAnchorPosY(active ? 0 : -1757, 1).SetEase(active ? Ease.OutBack : Ease.InBack);
+        border.DOAnchorPosY(active ? 0 : hideVPos, 1).SetEase(active ? Ease.OutBack : Ease.InBack);
         bg.DOColor(active ? new Color(0, 0, 0, 0.545f) : Vector4.zero, 1);
         this.Invoke(() =>
         {
@@ -34,7 +34,7 @@ public class ExitUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
         bg.gameObject.SetActive(false);
 
         exitButton.onClick.AddListener(() => DisplayUI(false));

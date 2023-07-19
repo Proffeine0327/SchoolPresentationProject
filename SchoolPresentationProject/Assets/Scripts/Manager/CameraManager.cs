@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    public static CameraManager Instance { get; private set; }
-
     [SerializeField] private Vector2 clamp;
     private Transform target;
 
@@ -13,7 +11,7 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
     }
 
     private void Start()
@@ -50,5 +48,8 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    private void OnPreCull() => GL.Clear(true, true, Color.black);
+    private void OnPreCull()
+    {
+        GL.Clear(true, true, Color.black);
+    }
 }
