@@ -65,7 +65,7 @@ public class StageCharacterSelectUI : MonoBehaviour
             BackgroundSound.Instance.Fade(SoundFadeType.Out, SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime);
 
             SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
-            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("CutScene"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("InGame"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
         });
 
         stageGroup.SetActive(false);
