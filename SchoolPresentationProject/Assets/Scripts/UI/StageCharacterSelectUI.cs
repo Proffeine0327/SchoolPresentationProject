@@ -62,7 +62,7 @@ public class StageCharacterSelectUI : MonoBehaviour
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
             DataManager.Instance.stageIndex = stageScrollUI.Index;
             DataManager.Instance.playerIndex = characterScrollUI.Index;
-            BackgroundSound.Instance.Fade(SoundFadeType.Out, SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime);
+            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime);
 
             SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
             this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("InGame"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);

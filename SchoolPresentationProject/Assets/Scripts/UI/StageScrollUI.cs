@@ -12,6 +12,7 @@ public class StageScrollUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     [SerializeField] private RectTransform content;
     [SerializeField] private Scrollbar scrollBar;
     [SerializeField] private TextMeshProUGUI stageText;
+    [SerializeField] private TextMeshProUGUI stageIndex;
     [SerializeField] private Button btn;
     [Header("Var")]
     [TextArea(1,3)]
@@ -52,5 +53,6 @@ public class StageScrollUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
             scrollBar.value = Mathf.Lerp(scrollBar.value, (float)index / (content.childCount - 1), Time.deltaTime * 10f);
 
         stageText.text = stageNames[index];
+        stageIndex.text = $"{index + 1}/{stageNames.Length}";
     }
 }

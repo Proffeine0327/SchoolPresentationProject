@@ -6,8 +6,6 @@ public enum SoundFadeType { In, Out }
 
 public class BackgroundSound : MonoBehaviour
 {
-    public static BackgroundSound Instance { get; private set; }
-
     [SerializeField] private Sound backgroundSound;
     [SerializeField] private float waitTime;
 
@@ -16,7 +14,7 @@ public class BackgroundSound : MonoBehaviour
 
     private void Start()
     {
-        Instance = this;
+        SingletonManager.RegisterSingleton(this);
         this.Invoke(() => currentSound = SoundManager.Instance.PlaySound(backgroundSound, false, true), waitTime);
     }
 

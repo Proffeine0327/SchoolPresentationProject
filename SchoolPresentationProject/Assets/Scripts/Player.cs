@@ -78,6 +78,7 @@ public class Player : MonoBehaviour
     public void Damage(float amount)
     {
         curHp -= amount;
+        curHp = Mathf.Clamp(curHp, 0, maxHp);
         SoundManager.Instance.PlaySound(Sound.Hurt);
         Instantiate(hitParticlePrefeb, transform.position, Quaternion.identity);
     }
@@ -111,7 +112,7 @@ public class Player : MonoBehaviour
             {
                 isEnd = true;
                 Time.timeScale = 0;
-                BackgroundSound.Instance.Fade(SoundFadeType.Out, 2.5f);
+                SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2.5f);
                 this.InvokeRealTime(() => SingletonManager.GetSingleton<ScoreUI>().DisplayUI(), 3);
             }
             return;

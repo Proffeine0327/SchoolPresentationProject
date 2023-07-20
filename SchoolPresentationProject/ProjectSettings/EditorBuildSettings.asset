@@ -8,12 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Title.unity
     guid: c0b8a0b97a97e7742ad8ff7f7dbcf051
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/CutScene.unity
     guid: 497df23b71190524ca706abe20789839
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Credit.unity
+    guid: b790eff697c584146a66283926eefafe
   - enabled: 1
     path: Assets/Scenes/InGame.unity
     guid: 2cda990e2423bbf4892e6590ba056729

@@ -10,6 +10,8 @@ public class SettingUI : MonoBehaviour
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
+    [SerializeField] private Button stopButton;
+    [SerializeField] private Button creditButton;
     [SerializeField] private Slider volumeSlider;
     [SerializeField] private TMP_InputField volumeInput;
     [Header("Vars")]
@@ -45,6 +47,18 @@ public class SettingUI : MonoBehaviour
 
         bg.gameObject.SetActive(false);
         exitButton?.onClick.AddListener(() => DisplayUI(false));
+        stopButton?.onClick.AddListener(() =>
+        {
+            SingletonManager.GetSingleton<Player>().Damage(SingletonManager.GetSingleton<Player>().CurHp + 1);
+            DisplayUI(false);
+        });
+        creditButton?.onClick.AddListener(() =>
+        {
+            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
+            SoundManager.Instance.PlaySound(Sound.OpeningCan);
+            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Credit"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+        });
         volumeInput.onSubmit.AddListener((value) =>
         {
             if (float.TryParse(value, out var v))

@@ -32,13 +32,13 @@ public class GameManager : MonoBehaviour
         if (!isChangedSound && GamePlayTime > 540f)
         {
             isChangedSound = true;
-            BackgroundSound.Instance.Fade(SoundFadeType.Out, 2);
+            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2);
 
             this.Invoke(() =>
             {
-                var sound = BackgroundSound.Instance.ChangeSound(Sound.IngameWarning);
+                var sound = SingletonManager.GetSingleton<BackgroundSound>().ChangeSound(Sound.IngameWarning);
                 sound.volume = 0;
-                BackgroundSound.Instance.Fade(SoundFadeType.In, 2);
+                SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.In, 2);
             }, 2);
         }
     }

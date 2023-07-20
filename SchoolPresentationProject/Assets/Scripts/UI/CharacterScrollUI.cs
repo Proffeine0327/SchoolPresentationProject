@@ -13,6 +13,7 @@ public class CharacterScrollUI : MonoBehaviour, IPointerDownHandler, IPointerUpH
     [SerializeField] private Scrollbar scrollBar;
     [SerializeField] private TextMeshProUGUI characterText;
     [SerializeField] private TextMeshProUGUI characterExplain;
+    [SerializeField] private TextMeshProUGUI characterIndex;
     [SerializeField] private Button btn;
     [SerializeField] private PlayerPresets playerPresets;
     [Header("Var")]
@@ -69,5 +70,6 @@ public class CharacterScrollUI : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
         characterText.text = playerPresets.Presets[index].Name;
         characterExplain.text = playerPresets.Presets[index].Explain;
+        characterIndex.text = $"{index + 1}/{playerPresets.Presets.Length}";
     }
 }
