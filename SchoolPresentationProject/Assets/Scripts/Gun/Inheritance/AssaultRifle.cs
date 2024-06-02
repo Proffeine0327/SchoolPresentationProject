@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AssaultRifle : Gun
 {
+    //singleton
+    private ReloadUI reloadUI => SingletonManager.GetSingleton<ReloadUI>();
+
     [Header("Animation")]
     [SerializeField] private Sprite[] sprites;
 
@@ -20,9 +23,9 @@ public class AssaultRifle : Gun
         if(isReloading) return;
         if(curAmmo == maxAmmo) return;
 
-        SoundManager.Instance.PlaySound(Sound.GunReload);
+        SoundManager.Instance.PlaySound(Sound.GunReload); 
         isReloading = true;
-        SingletonManager.GetSingleton<ReloadUI>().SetTime(reloadTime);
+        reloadUI.SetTime(reloadTime);
         this.Invoke(() =>
         {
             isReloading = false;
@@ -52,6 +55,8 @@ public class AssaultRifle : Gun
 
         curAmmo--;
         curShootTime = shootTime;
+
+        //flag fire animation
         animationIndex = 1;
     }
     
@@ -60,6 +65,7 @@ public class AssaultRifle : Gun
         base.Update();
         if(curShootTime > 0) curShootTime -= Time.deltaTime;
 
+        //when fire
         if(animationIndex > 0)
         {
             if (curAnimationTime > 0)

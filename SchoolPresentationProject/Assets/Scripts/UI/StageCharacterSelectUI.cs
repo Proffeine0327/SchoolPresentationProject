@@ -6,6 +6,9 @@ using DG.Tweening;
 
 public class StageCharacterSelectUI : MonoBehaviour
 {
+    private BackgroundSound backgroundSound => SingletonManager.GetSingleton<BackgroundSound>();
+    private ScreenChangerUI screenChangerUI => SingletonManager.GetSingleton<ScreenChangerUI>();
+
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
@@ -62,10 +65,10 @@ public class StageCharacterSelectUI : MonoBehaviour
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
             DataManager.Instance.stageIndex = stageScrollUI.Index;
             DataManager.Instance.playerIndex = characterScrollUI.Index;
-            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime);
+            backgroundSound.Fade(SoundFadeType.Out, screenChangerUI.AnimationTime);
 
-            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
-            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("InGame"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+            screenChangerUI.ActiveUI(true);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("InGame"), screenChangerUI.AnimationTime + 1);
         });
 
         stageGroup.SetActive(false);

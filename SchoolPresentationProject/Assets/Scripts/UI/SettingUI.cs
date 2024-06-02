@@ -7,6 +7,10 @@ using TMPro;
 
 public class SettingUI : MonoBehaviour
 {
+    private Player player => SingletonManager.GetSingleton<Player>();
+    private ScreenChangerUI screenChangerUI => SingletonManager.GetSingleton<ScreenChangerUI>();
+    private BackgroundSound backgroundSound => SingletonManager.GetSingleton<BackgroundSound>();
+
     [SerializeField] private Image bg;
     [SerializeField] private RectTransform border;
     [SerializeField] private Button exitButton;
@@ -49,15 +53,15 @@ public class SettingUI : MonoBehaviour
         exitButton?.onClick.AddListener(() => DisplayUI(false));
         stopButton?.onClick.AddListener(() =>
         {
-            SingletonManager.GetSingleton<Player>().Damage(SingletonManager.GetSingleton<Player>().CurHp + 1);
+            player.Damage(player.CurHp + 1);
             DisplayUI(false);
         });
         creditButton?.onClick.AddListener(() =>
         {
-            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
+            screenChangerUI.ActiveUI(true);
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
-            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2);
-            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Credit"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+            backgroundSound.Fade(SoundFadeType.Out, 2);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Credit"), screenChangerUI.AnimationTime + 1);
         });
         volumeInput.onSubmit.AddListener((value) =>
         {

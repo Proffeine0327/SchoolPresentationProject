@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private CameraManager cameraManager => SingletonManager.GetSingleton<CameraManager>();
+    private BackgroundSound backgroundSound => SingletonManager.GetSingleton<BackgroundSound>();
+    private ScreenChangerUI screenChangerUI => SingletonManager.GetSingleton<ScreenChangerUI>();
+    private Player player => SingletonManager.GetSingleton<Player>();
+    private EnemySpawnManager enemySpawnManager => SingletonManager.GetSingleton<EnemySpawnManager>();
+
     [SerializeField] private PlayerPresets playerPresets;
 
     private bool isGameStart;
     private bool isChangedSound;
     private float startTime;
-    private GameObject player;
 
     public bool IsGameStart => isGameStart;
     public float GamePlayTime { get { return isGameStart ? Time.time - startTime : 0; } }
 
     private void Awake()
     {
-        player = Instantiate(playerPresets.Presets[DataManager.Instance.playerIndex].Prefeb);
+        Instantiate(playerPresets.Presets[DataManager.Instance.playerIndex].Prefeb);
         SingletonManager.RegisterSingleton(this);
     }
 
     private void Start()
     {
-        SingletonManager.GetSingleton<CameraManager>().SetTarget(player.transform);
+        cameraManager.SetTarget(player.transform);
         SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
         StartCoroutine(StartAnimation());
     }
@@ -32,23 +37,23 @@ public class GameManager : MonoBehaviour
         if (!isChangedSound && GamePlayTime > 540f)
         {
             isChangedSound = true;
-            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2);
+            backgroundSound.Fade(SoundFadeType.Out, 2);
 
             this.Invoke(() =>
             {
-                var sound = SingletonManager.GetSingleton<BackgroundSound>().ChangeSound(Sound.IngameWarning);
+                var sound = backgroundSound.ChangeSound(Sound.IngameWarning);
                 sound.volume = 0;
-                SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.In, 2);
+                backgroundSound.Fade(SoundFadeType.In, 2);
             }, 2);
         }
     }
 
     private IEnumerator StartAnimation()
     {
-        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
-        yield return new WaitForSeconds(SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
-        yield return StartCoroutine(SingletonManager.GetSingleton<Player>().StartAnimation());
-        SingletonManager.GetSingleton<EnemySpawnManager>().StartSpawning();
+        screenChangerUI.ActiveUI(false);
+        yield return new WaitForSeconds(screenChangerUI.AnimationTime + 1);
+        yield return StartCoroutine(player.StartAnimation());
+        enemySpawnManager.StartSpawning();
 
         isGameStart = true;
         startTime = Time.time;

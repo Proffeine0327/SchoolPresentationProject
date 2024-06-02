@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Sickel : MonoBehaviour
 {
+    private Player player => SingletonManager.GetSingleton<Player>();
+
     [SerializeField] private float range;
     [SerializeField] private float damage;
     private SpriteRenderer sr;
@@ -21,7 +23,7 @@ public class Sickel : MonoBehaviour
             foreach (var hit in Physics2D.OverlapCircleAll(transform.position, range * transform.localScale.x))
             {
                 if (hit.CompareTag("Enemy"))
-                    hit.GetComponent<Enemy>().Damage((damage + (SingletonManager.GetSingleton<Player>().AbilityLvls[(int)AbilityType.sickel] * 2) - 1) * Time.deltaTime);
+                    hit.GetComponent<Enemy>().Damage((damage + (player.AbilityLvls[(int)AbilityType.sickel] * 2) - 1) * Time.deltaTime);
             }
         }
     }

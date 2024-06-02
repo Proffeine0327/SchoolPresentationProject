@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Gun : MonoBehaviour
 {
+    //inspector
     [Header("Ref")]
     [SerializeField] protected GameObject bulletPrefeb;
     [SerializeField] protected Transform bulletSpawnPos;
@@ -16,17 +17,20 @@ public abstract class Gun : MonoBehaviour
     [Header("UI")]
     [SerializeField] protected string gunName;
 
+    //field
     protected SpriteRenderer sr;
     protected int curAmmo;
     protected float curShootTime;
     protected float rotation;
     protected bool isReloading;
 
+    //property
     public string GunName => gunName;
     public int MaxAmmo => maxAmmo;
     public int CurAmmo => curAmmo;
     public bool IsReloading => isReloading;
 
+    //function
     public abstract void Shoot();
     public abstract void Reload();
 

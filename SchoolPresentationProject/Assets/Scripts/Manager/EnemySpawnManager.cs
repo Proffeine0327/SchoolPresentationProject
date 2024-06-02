@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class EnemySpawnManager : MonoBehaviour
 {
+    private GameManager gameManager => SingletonManager.GetSingleton<GameManager>();
+
     [SerializeField] private GameObject xmark;
     [SerializeField] private StagePresets stagePresets;
 
@@ -25,7 +27,7 @@ public class EnemySpawnManager : MonoBehaviour
             var spawnpos = new Vector2(Random.Range(-14f, 14f), Random.Range(-9f, 9f));
             StartCoroutine(SpawnEnemy(spawnpos));
 
-            var randomwait = Random.Range(0.2f, 3f) * Mathf.Lerp(1, 0.05f, Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60) / 9f);
+            var randomwait = Random.Range(0.2f, 3f) * Mathf.Lerp(1, 0.05f, Mathf.FloorToInt(gameManager.GamePlayTime / 60) / 9f);
             yield return new WaitForSeconds(randomwait);
         }
     }

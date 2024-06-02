@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class CutSceneUI : MonoBehaviour
 {
+    private ScreenChangerUI screenChangerUI => SingletonManager.GetSingleton<ScreenChangerUI>();
+
     [SerializeField] private Image[] blinders;
 
     private void Start()
     {
-        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
+        screenChangerUI.ActiveUI(false);
         StartCoroutine(CutSceneDisplay());
     }
 
@@ -31,8 +33,8 @@ public class CutSceneUI : MonoBehaviour
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
             yield return null;
         }
-        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
-        yield return new WaitForSeconds(SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+        screenChangerUI.ActiveUI(true);
+        yield return new WaitForSeconds(screenChangerUI.AnimationTime + 1);
         UnityEngine.SceneManagement.SceneManager.LoadScene("InGame");
     }
 }

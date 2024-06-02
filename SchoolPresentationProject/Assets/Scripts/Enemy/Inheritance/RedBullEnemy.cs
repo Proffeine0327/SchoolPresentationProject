@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class RedBullEnemy : Enemy
 {
-    [SerializeField] private float attackRange;
-
     protected override void Attack()
     {
-        if(Vector2.Distance(transform.position, SingletonManager.GetSingleton<Player>().transform.position) < attackRange)
-            SingletonManager.GetSingleton<Player>().Damage(damage);
+        if(Vector2.Distance(transform.position, player.transform.position) < attackRange)
+            player.Damage(damage);
     }
 
     protected override void EndAttack()

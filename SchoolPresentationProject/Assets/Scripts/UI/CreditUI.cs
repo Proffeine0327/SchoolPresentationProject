@@ -5,18 +5,21 @@ using UnityEngine.UI;
 
 public class CreditUI : MonoBehaviour
 {
+    private ScreenChangerUI screenChangerUI => SingletonManager.GetSingleton<ScreenChangerUI>();
+    private BackgroundSound backgroundSound => SingletonManager.GetSingleton<BackgroundSound>();
+
     [SerializeField] private Button exitBtn;
 
     void Start()
     {
-        SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(false);
+        screenChangerUI.ActiveUI(false);
 
         exitBtn?.onClick.AddListener(() =>
         {
-            SingletonManager.GetSingleton<ScreenChangerUI>().ActiveUI(true);
+            screenChangerUI.ActiveUI(true);
             SoundManager.Instance.PlaySound(Sound.OpeningCan);
-            SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2);
-            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Title"), SingletonManager.GetSingleton<ScreenChangerUI>().AnimationTime + 1);
+            backgroundSound.Fade(SoundFadeType.Out, 2);
+            this.Invoke(() => UnityEngine.SceneManagement.SceneManager.LoadScene("Title"), screenChangerUI.AnimationTime + 1);
         });
     }
 }

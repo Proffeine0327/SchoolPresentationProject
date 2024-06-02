@@ -6,6 +6,9 @@ using TMPro;
 
 public class PlayerInformationUI : MonoBehaviour
 {
+    private Player player = SingletonManager.GetSingleton<Player>();
+    private GameManager gameManager => SingletonManager.GetSingleton<GameManager>();
+
     [Header("Hp")]
     [SerializeField] private RectTransform hpBarBg;
     [SerializeField] private Image hpBar;
@@ -24,8 +27,6 @@ public class PlayerInformationUI : MonoBehaviour
 
     private void LateUpdate() 
     {
-        var player = SingletonManager.GetSingleton<Player>();
-
         //hp
         hpBarBg.position = Camera.main.WorldToScreenPoint(player.transform.position + new Vector3(0, 1.2f, 0));
         hpBar.fillAmount = player.CurHp / player.MaxHp;
@@ -44,7 +45,7 @@ public class PlayerInformationUI : MonoBehaviour
         killText.text = string.Format("{0:#,0}", player.KillAmount);
 
         //time
-        timeText.text = $"{Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime % 60))}";
-        timeBgText.text = $"{Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(SingletonManager.GetSingleton<GameManager>().GamePlayTime % 60))}";
+        timeText.text = $"{Mathf.FloorToInt(gameManager.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(gameManager.GamePlayTime % 60))}";
+        timeBgText.text = $"{Mathf.FloorToInt(gameManager.GamePlayTime / 60)}:{string.Format("{0:0,0}", Mathf.FloorToInt(gameManager.GamePlayTime % 60))}";
     }
 }

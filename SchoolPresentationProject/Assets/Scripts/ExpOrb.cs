@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ExpOrb : MonoBehaviour
 {
+    private Player player => SingletonManager.GetSingleton<Player>();
+
     [SerializeField] private float animationTime;
 
     private void Start()
@@ -13,7 +15,6 @@ public class ExpOrb : MonoBehaviour
 
     private IEnumerator Animation()
     {
-        var player = SingletonManager.GetSingleton<Player>();
         var startpos = transform.position;
         var rot = Random.Range(0, 360);
         var secondpos = transform.position + (new Vector3(Mathf.Cos(rot * Mathf.Deg2Rad), Mathf.Sin(rot * Mathf.Deg2Rad)) * 2);

@@ -7,6 +7,13 @@ public enum AbilityType { bomb, sickel, armor_piercing }
 
 public class Player : MonoBehaviour
 {
+    private GameManager gameManager => SingletonManager.GetSingleton<GameManager>();
+    private BackgroundSound backgroundSound => SingletonManager.GetSingleton<BackgroundSound>();
+
+    private ScoreUI scoreUI => SingletonManager.GetSingleton<ScoreUI>();
+    private SettingUI settingUI => SingletonManager.GetSingleton<SettingUI>();
+    private AbilitySelectUI abilitySelectUI => SingletonManager.GetSingleton<AbilitySelectUI>();
+
     [Header("Move")]
     [SerializeField] private float moveSpeed;
     [Header("Hp")]
@@ -102,8 +109,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (SingletonManager.GetSingleton<AbilitySelectUI>().IsDisplayingUI) return;
-        if (!SingletonManager.GetSingleton<GameManager>().IsGameStart) return;
+        if (abilitySelectUI.IsDisplayingUI) return;
+        if (!gameManager.IsGameStart) return;
 
         if (CurHp <= 0)
         {
@@ -112,8 +119,8 @@ public class Player : MonoBehaviour
             {
                 isEnd = true;
                 Time.timeScale = 0;
-                SingletonManager.GetSingleton<BackgroundSound>().Fade(SoundFadeType.Out, 2.5f);
-                this.InvokeRealTime(() => SingletonManager.GetSingleton<ScoreUI>().DisplayUI(), 3);
+                backgroundSound.Fade(SoundFadeType.Out, 2.5f);
+                this.InvokeRealTime(() => scoreUI.DisplayUI(), 3);
             }
             return;
         }
@@ -136,7 +143,7 @@ public class Player : MonoBehaviour
         var mouseRelativePos = Camera.main.ScreenToWorldPoint(Input.mousePosition) - curGun.transform.position;
         var mouseXNormalized = mouseRelativePos.x > 0 ? 1 : -1;
 
-        if (!SingletonManager.GetSingleton<SettingUI>().IsDisplayingUI)
+        if (!settingUI.IsDisplayingUI)
             sr.flipX = mouseXNormalized < 0;
 
         //animator
@@ -144,7 +151,7 @@ public class Player : MonoBehaviour
         anim.SetFloat("moveDir", (h != 0 ? h : mouseXNormalized) * mouseXNormalized);
 
         //gun
-        if (!SingletonManager.GetSingleton<SettingUI>().IsDisplayingUI)
+        if (!settingUI.IsDisplayingUI)
         {
             curGun.SetRotation(Mathf.Atan2(mouseRelativePos.y, mouseRelativePos.x) * Mathf.Rad2Deg);
             if (Input.GetMouseButton(0)) curGun.Shoot();
@@ -158,7 +165,7 @@ public class Player : MonoBehaviour
             curLvl++;
             maxExp = curLvl * 100;
 
-            SingletonManager.GetSingleton<AbilitySelectUI>().DisplayUI();
+            abilitySelectUI.DisplayUI();
         }
 
         //ability
@@ -189,10 +196,10 @@ public class Player : MonoBehaviour
         }
 
         //esc
-        if (Input.GetKeyDown(KeyCode.Escape) && !SingletonManager.GetSingleton<SettingUI>().IsPlayingAnimation)
+        if (Input.GetKeyDown(KeyCode.Escape) && !settingUI.IsPlayingAnimation)
         {
-            SingletonManager.GetSingleton<SettingUI>().DisplayUI(!SingletonManager.GetSingleton<SettingUI>().IsDisplayingUI);
-            if (SingletonManager.GetSingleton<SettingUI>().IsDisplayingUI)
+            settingUI.DisplayUI(!settingUI.IsDisplayingUI);
+            if (settingUI.IsDisplayingUI)
             {
                 preTimeScale = Time.timeScale;
                 Time.timeScale = 0;

@@ -4,13 +4,19 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    //singleton
+    protected Player player => SingletonManager.GetSingleton<Player>();
+
+    //inspector
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float maxHp;
     [SerializeField] protected float damage;
     [SerializeField] protected float attackCooltime;
     [SerializeField] protected float recognizeRange;
+    [SerializeField] protected float attackRange;
     [SerializeField] protected GameObject expOrbPrefeb;
 
+    //field
     private SpriteRenderer sr;
     private float hitAnimationTime;
 
@@ -21,8 +27,13 @@ public abstract class Enemy : MonoBehaviour
     protected bool isAttacking;
     protected bool isDie;
 
+    //property
     public float CurHp => curHp;
     public float MaxHp => maxHp;
+
+    //function
+    protected abstract void Attack();
+    protected abstract void EndAttack();
 
     public void Damage(float amount)
     {
@@ -30,12 +41,9 @@ public abstract class Enemy : MonoBehaviour
         curHp -= amount;
     }
 
-    protected abstract void Attack();
-    protected abstract void EndAttack();
-
     protected virtual void OnDie()
     {
-        SingletonManager.GetSingleton<Player>().KilledEnemy();
+        player.KilledEnemy();
         for (var rand = Random.Range(2, 5); rand >= 0; rand--)
             Instantiate(expOrbPrefeb, (Vector2)transform.position + (Random.insideUnitCircle * 0.7f), Quaternion.Euler(0, 0, 45));
     }
@@ -73,11 +81,13 @@ public abstract class Enemy : MonoBehaviour
         if (!isAttacking)
         {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-            var dir = SingletonManager.GetSingleton<Player>().transform.position - transform.position;
+
+            //calculate direction
+            var dir = player.transform.position - transform.position;
             sr.flipX = dir.x <= 0;
             dir = dir.normalized;
             rb2d.velocity = dir * moveSpeed;
-            if (Vector2.Distance(transform.position, SingletonManager.GetSingleton<Player>().transform.position) < recognizeRange)
+            if (Vector2.Distance(transform.position, player.transform.position) < recognizeRange)
             {
                 isAttacking = true;
                 anim.SetTrigger("attack");

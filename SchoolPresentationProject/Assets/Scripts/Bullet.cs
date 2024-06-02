@@ -5,6 +5,8 @@ using System.Linq;
 
 public class Bullet : MonoBehaviour
 {
+    private Player player => SingletonManager.GetSingleton<Player>();
+    
     private int throughCount;
     private float damage;
     private float speed;
@@ -28,7 +30,7 @@ public class Bullet : MonoBehaviour
         this.dir = dir;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
         this.damage = damage;
-        throughCount = SingletonManager.GetSingleton<Player>().AbilityLvls[(int)AbilityType.armor_piercing] + 1;
+        throughCount = player.AbilityLvls[(int)AbilityType.armor_piercing] + 1;
     }
 
     private void Update()
